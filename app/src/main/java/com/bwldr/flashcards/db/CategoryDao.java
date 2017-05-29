@@ -9,12 +9,12 @@ import java.util.List;
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 
 @Dao
-public interface StackDao {
+public interface CategoryDao {
 
-    @Query("SELECT * FROM Stack")
-    public List<Stack> selectAll();
+    @Query("SELECT * FROM Category")
+    public List<Category> selectAll();
 
     @Insert(onConflict = REPLACE)
-    public void insertStack(Stack stack);
+    public void insertCategory(Category category);
 }
 

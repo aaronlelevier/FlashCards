@@ -8,11 +8,11 @@ import java.util.UUID;
 /**
  * Base class for all {@link Entity} to generate the 'id'
  */
-public abstract class AbstractRecord {
+public abstract class BaseRecord {
     @PrimaryKey
     public String id;
 
-    public AbstractRecord() {
+    public BaseRecord() {
         this.id = UUID.randomUUID().toString();
     }
 }
