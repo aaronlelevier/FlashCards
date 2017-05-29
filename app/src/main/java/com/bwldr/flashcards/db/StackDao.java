@@ -15,6 +15,6 @@ public interface StackDao {
     public List<Stack> selectAll();
 
     @Insert(onConflict = REPLACE)
-    public void insertStack(Stack stack);
+    public void insert(Stack stack);
 }
 

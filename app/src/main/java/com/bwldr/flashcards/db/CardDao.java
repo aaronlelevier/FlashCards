@@ -15,5 +15,8 @@ public interface CardDao {
     public List<Card> selectAll();
 
     @Insert(onConflict = REPLACE)
-    public void insertCard(Card card);
+    public void insert(Card card);
+
+    @Query("SELECT * FROM Card WHERE stack_id = :id")
+    List<Card> selectByStackId(String id);
 }

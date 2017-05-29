@@ -28,8 +28,8 @@ public class CategoryTest {
         AppDatabase db = Room.inMemoryDatabaseBuilder(mContext, AppDatabase.class).build();
         Category category = new Category("Java");
         Category category2 = new Category("Python");
-        db.categoryDao().insertCategory(category);
-        db.categoryDao().insertCategory(category2);
+        db.categoryDao().insert(category);
+        db.categoryDao().insert(category2);
 
         List<Category> categories = db.categoryDao().selectAll();
 

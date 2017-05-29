@@ -15,6 +15,6 @@ public interface CategoryDao {
     public List<Category> selectAll();
 
     @Insert(onConflict = REPLACE)
-    public void insertCategory(Category category);
+    public void insert(Category category);
 }
 

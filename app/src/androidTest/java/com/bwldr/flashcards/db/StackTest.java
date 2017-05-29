@@ -28,8 +28,8 @@ public class StackTest {
         AppDatabase db = Room.inMemoryDatabaseBuilder(mContext, AppDatabase.class).build();
         Stack stack = new Stack("Field Modifiers");
         Stack stack2 = new Stack("Control Flow Modifiers");
-        db.stackDao().insertStack(stack);
-        db.stackDao().insertStack(stack2);
+        db.stackDao().insert(stack);
+        db.stackDao().insert(stack2);
 
         List<Stack> stacks = db.stackDao().selectAll();
 
