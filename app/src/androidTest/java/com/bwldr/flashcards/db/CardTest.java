@@ -19,6 +19,7 @@ public class CardTest {
     private Context mContext;
     private AppDatabase mDb;
 
+    private Category mCategory;
     private Stack mStack;
     private Stack mStack2;
     private Card mCard;
@@ -30,8 +31,9 @@ public class CardTest {
         mContext = InstrumentationRegistry.getTargetContext();
         mDb = Room.inMemoryDatabaseBuilder(mContext, AppDatabase.class).build();
 
-        mStack = new Stack("Field Modifiers");
-        mStack2 = new Stack("Control Flow Statements");
+        mCategory = new Category("Java");
+        mStack = new Stack(mCategory.id, "Field Modifiers");
+        mStack2 = new Stack(mCategory.id, "Control Flow Statements");
         mCard = new Card(mStack.id, "public", "can be accessed by anything");
         mCard2 = new Card(mStack.id, "private", "can only be accessed internally");
         mCard3 = new Card(mStack2.id, "if-then", "single 'if' block");

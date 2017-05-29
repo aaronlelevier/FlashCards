@@ -12,9 +12,12 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 public interface StackDao {
 
     @Query("SELECT * FROM Stack")
-    public List<Stack> selectAll();
+    List<Stack> selectAll();
+
+    @Query("SELECT * FROM Stack WHERE category_id = :id")
+    List<Stack> selectByCategoryId(String id);
 
     @Insert(onConflict = REPLACE)
-    public void insert(Stack stack);
+    void insert(Stack stack);
 }
 
