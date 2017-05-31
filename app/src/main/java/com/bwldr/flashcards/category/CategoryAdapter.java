@@ -1,5 +1,6 @@
 package com.bwldr.flashcards.category;
 
+import android.arch.lifecycle.LiveData;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,9 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
-    private List<Category> mCategories;
+    private LiveData<List<Category>> mCategories;
 
-    public CategoryAdapter(List<Category> categories) {
+    public CategoryAdapter(LiveData<List<Category>> categories) {
         mCategories = categories;
     }
 
@@ -28,13 +29,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        Category category = mCategories.get(position);
+        Category category = mCategories.getValue().get(position);
         viewHolder.mTextView.setText(category.title);
     }
 
     @Override
     public int getItemCount() {
-        return mCategories.size();
+        return mCategories.getValue().size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

@@ -46,7 +46,7 @@ public class CategoryFragment extends LifecycleFragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new CategoryAdapter(mCategoryViewModel.mData);
+        mAdapter = new CategoryAdapter(mCategoryViewModel.getListData());
         mRecyclerView.setAdapter(mAdapter);
 
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
