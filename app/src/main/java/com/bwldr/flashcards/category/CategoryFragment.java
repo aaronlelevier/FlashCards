@@ -1,6 +1,7 @@
 package com.bwldr.flashcards.category;
 
 import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bwldr.flashcards.R;
+import com.bwldr.flashcards.db.Category;
+
+import java.util.List;
 
 
 public class CategoryFragment extends LifecycleFragment {
@@ -46,11 +50,20 @@ public class CategoryFragment extends LifecycleFragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new CategoryAdapter(mCategoryViewModel.getListData());
-        mRecyclerView.setAdapter(mAdapter);
+        registerCategoryObserver();
 
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
                 DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(mDividerItemDecoration);
+    }
+
+    private void registerCategoryObserver() {
+        mCategoryViewModel.getListData().observe(this, new Observer<List<Category>>() {
+            @Override
+            public void onChanged(@Nullable List<Category> categories) {
+                mAdapter = new CategoryAdapter(mCategoryViewModel.getListData());
+                mRecyclerView.setAdapter(mAdapter);
+            }
+        });
     }
 }
