@@ -1,5 +1,6 @@
 package com.bwldr.flashcards.db;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
@@ -12,7 +13,7 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 public interface CategoryDao {
 
     @Query("SELECT * FROM Category")
-    List<Category> selectAll();
+    LiveData<List<Category>> selectAll();
 
     @Insert(onConflict = REPLACE)
     void insert(Category category);

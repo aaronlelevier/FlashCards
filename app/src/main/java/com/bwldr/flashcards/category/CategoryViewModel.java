@@ -1,18 +1,19 @@
 package com.bwldr.flashcards.category;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.arch.persistence.room.Room;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
 
+import com.bwldr.flashcards.db.AppDatabase;
 import com.bwldr.flashcards.db.Category;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryViewModel extends ViewModel implements Handler.Callback {
+public class CategoryViewModel extends AndroidViewModel implements Handler.Callback {
 
     private static final int MSG_START = 1;
     private static final int MSG_LOOPER_PREPARED = 2;
@@ -22,12 +23,18 @@ public class CategoryViewModel extends ViewModel implements Handler.Callback {
     private Handler mHandler;
     private CategoryGenThread mCategoryGenThread;
 
-    private MutableLiveData<List<Category>> mData = new MutableLiveData<>();
+    private AppDatabase mDb;
+    private LiveData<List<Category>> mCategories;
 
-    public CategoryViewModel() {
+    public CategoryViewModel(Application application) {
+        super(application);
+        mDb = Room.inMemoryDatabaseBuilder(this.getApplication(), AppDatabase.class).build();
+
         mHandler = new Handler(this);
         mCategoryGenThread = new CategoryGenThread("CategoryGenThread");
-        mCategoryGenThread.start();
+        mCategoryGenThread.start(); // handles populating of DB
+
+        mCategories = mDb.categoryDao().selectAll();
     }
 
     @Override
@@ -38,19 +45,14 @@ public class CategoryViewModel extends ViewModel implements Handler.Callback {
                         .sendToTarget();
                 break;
             case MSG_GENERATED_CATEGORIES:
-                setCategories((List<Category>)msg.obj);
+                joinCategoryGenThread();
                 break;
         }
         return true;
     }
 
     public LiveData<List<Category>> getListData() {
-        return mData;
-    }
-
-    private void setCategories(List<Category> data) {
-        mData.setValue(data);
-        joinCategoryGenThread();
+        return mCategories;
     }
 
     private void joinCategoryGenThread() {
@@ -82,8 +84,8 @@ public class CategoryViewModel extends ViewModel implements Handler.Callback {
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_START:
-                    List<Category> categories = generateCategories();
-                    mHandler.obtainMessage(MSG_GENERATED_CATEGORIES, categories)
+                    generateCategories();
+                    mHandler.obtainMessage(MSG_GENERATED_CATEGORIES)
                             .sendToTarget();
                     break;
                 case MSG_STOP:
@@ -93,12 +95,10 @@ public class CategoryViewModel extends ViewModel implements Handler.Callback {
             return true;
         }
 
-        private List<Category> generateCategories() {
-            List<Category> data = new ArrayList<>();
-            data.add(new Category("Java"));
-            data.add(new Category("Python"));
-            data.add(new Category("Javascript"));
-            return data;
+        private void generateCategories() {
+            mDb.categoryDao().insert(new Category("Java"));
+            mDb.categoryDao().insert(new Category("Python"));
+            mDb.categoryDao().insert(new Category("Javascript"));
         }
     }
 }
