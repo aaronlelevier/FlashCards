@@ -33,9 +33,9 @@ public class CategoryViewModel extends AndroidViewModel {
     private class CategoryGenAsyncTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
-            mDb.categoryDao().insert(new Category("Java"));
-            mDb.categoryDao().insert(new Category("Python"));
-            mDb.categoryDao().insert(new Category("Javascript"));
+//            mDb.categoryDao().insert(new Category("Java"));
+//            mDb.categoryDao().insert(new Category("Python"));
+//            mDb.categoryDao().insert(new Category("Javascript"));
             return null;
         }
     }

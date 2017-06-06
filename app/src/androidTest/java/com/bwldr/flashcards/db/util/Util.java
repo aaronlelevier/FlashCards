@@ -4,6 +4,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 
+import com.bwldr.flashcards.db.Category;
+
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -27,5 +30,13 @@ public class Util {
         latch.await(2, TimeUnit.SECONDS);
         //noinspection unchecked
         return (T) data[0];
+    }
+
+    public static String genId() {
+        return UUID.randomUUID().toString();
+    }
+
+    public static Category create_category(String title) {
+        return new Category(genId(), title);
     }
 }

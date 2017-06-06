@@ -5,6 +5,8 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.bwldr.flashcards.db.util.Util;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,8 +32,8 @@ public class StackTest {
         mContext = InstrumentationRegistry.getTargetContext();
         mDb = Room.inMemoryDatabaseBuilder(mContext, AppDatabase.class).build();
 
-        mCategory = new Category("Java");
-        mCategory2 = new Category("Python");
+        mCategory = Util.create_category("Java");
+        mCategory2 = Util.create_category("Python");
         mStack = new Stack(mCategory.id, "Field Modifiers");
         mStack2 = new Stack(mCategory.id, "Control Flow Modifiers");
         mStack3 = new Stack(mCategory2.id, "Decorators");

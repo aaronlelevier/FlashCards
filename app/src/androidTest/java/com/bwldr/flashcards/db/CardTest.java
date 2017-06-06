@@ -5,6 +5,8 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.bwldr.flashcards.db.util.Util;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +33,7 @@ public class CardTest {
         mContext = InstrumentationRegistry.getTargetContext();
         mDb = Room.inMemoryDatabaseBuilder(mContext, AppDatabase.class).build();
 
-        mCategory = new Category("Java");
+        mCategory = Util.create_category("Java");
         mStack = new Stack(mCategory.id, "Field Modifiers");
         mStack2 = new Stack(mCategory.id, "Control Flow Statements");
         mCard = new Card(mStack.id, "public", "can be accessed by anything");

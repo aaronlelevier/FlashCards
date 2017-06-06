@@ -6,6 +6,8 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.bwldr.flashcards.db.util.Util;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,8 +30,8 @@ public class CategoryTest {
     @Test
     public void populateCategories() {
         AppDatabase db = Room.inMemoryDatabaseBuilder(mContext, AppDatabase.class).build();
-        Category category = new Category("Java");
-        Category category2 = new Category("Python");
+        Category category = Util.create_category("Java");
+        Category category2 = Util.create_category("Python");
         db.categoryDao().insert(category);
         db.categoryDao().insert(category2);
 
@@ -42,8 +44,11 @@ public class CategoryTest {
             // LiveData ret failed
         }
         assertEquals(2, categories.size());
-        Category s = categories.get(0);
-        assertEquals(36, s.id.length());
-        assertEquals("Java", s.title);
+        Category c1 = categories.get(0);
+        assertEquals("Error: Util.create_category didn't generate the 'id'",
+                36, c1.id.length());
+        assertEquals("Java", c1.title);
+        Category c2 = categories.get(1);
+        assertEquals("Python", c2.title);
     }
 }

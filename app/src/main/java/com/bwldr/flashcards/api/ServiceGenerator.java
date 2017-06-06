@@ -22,7 +22,7 @@ public class ServiceGenerator {
 
     private static Retrofit retrofit;
 
-    private static final String BASE_URL = "https://api.github.com/";
+    private static final String BASE_URL = "https://api.github.com/"; // TODO: change to bwldr api URL
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()
