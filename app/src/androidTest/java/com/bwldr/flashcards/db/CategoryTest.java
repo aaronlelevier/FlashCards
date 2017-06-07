@@ -47,8 +47,8 @@ public class CategoryTest {
         Category c1 = categories.get(0);
         assertEquals("Error: Util.create_category didn't generate the 'id'",
                 36, c1.id.length());
-        assertEquals("Java", c1.title);
+        assertEquals("Java", c1.name);
         Category c2 = categories.get(1);
-        assertEquals("Python", c2.title);
+        assertEquals("Python", c2.name);
     }
 }

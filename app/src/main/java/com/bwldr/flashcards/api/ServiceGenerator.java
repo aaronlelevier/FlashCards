@@ -22,7 +22,7 @@ public class ServiceGenerator {
 
     private static Retrofit retrofit;
 
-    private static final String BASE_URL = "http://ab858160.ngrok.io/";
+    private static final String BASE_URL = "http://493cea8f.ngrok.io/";
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()

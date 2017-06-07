@@ -36,7 +36,7 @@ public class Util {
         return UUID.randomUUID().toString();
     }
 
-    public static Category create_category(String title) {
-        return new Category(genId(), title);
+    public static Category create_category(String name) {
+        return new Category(genId(), name);
     }
 }

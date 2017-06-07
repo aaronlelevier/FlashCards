@@ -10,10 +10,10 @@ import android.arch.persistence.room.PrimaryKey;
 public class Category {
     @PrimaryKey
     public String id;
-    public String title;
+    public String name;
 
-    public Category(String id, String title) {
+    public Category(String id, String name) {
         this.id = id;
-        this.title = title;
+        this.name = name;
     }
 }

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Room;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.bwldr.flashcards.api.ApiClient;
@@ -25,14 +26,15 @@ public class CategoryViewModel extends AndroidViewModel {
     public CategoryViewModel(Application application) {
         super(application);
         mDb = Room.inMemoryDatabaseBuilder(this.getApplication(), AppDatabase.class).build();
+        mCategories = mDb.categoryDao().selectAll();
 
         ApiClient client = ServiceGenerator.createService(ApiClient.class);
-
         Call<List<Category>> call = client.categoriesList();
         call.enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-                Log.d("onResponse", response.body().toString());
+                InsertCategoriesTask task = new InsertCategoriesTask();
+                task.execute(response.body());
             }
 
             @Override
@@ -40,11 +42,20 @@ public class CategoryViewModel extends AndroidViewModel {
                 Log.d("onFailuire", "error");
             }
         });
-
-        mCategories = mDb.categoryDao().selectAll();
     }
 
     public LiveData<List<Category>> getListData() {
         return mCategories;
+    }
+
+    private class InsertCategoriesTask extends AsyncTask<List<Category>, Void, Void> {
+        @Override
+        protected Void doInBackground(List<Category>... params) {
+            List<Category> data = params[0];
+            for (Category category : data) {
+                mDb.categoryDao().insert(category);
+            }
+            return null;
+        }
     }
 }
