@@ -8,12 +8,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bwldr.flashcards.R;
 import com.bwldr.flashcards.db.Category;
+import com.bwldr.flashcards.util.RecyclerItemClickListener;
 
 import java.util.List;
 
@@ -55,6 +57,20 @@ public class CategoryFragment extends LifecycleFragment {
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
                 DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(mDividerItemDecoration);
+
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Log.d("x", "onItemClick: " + Integer.toString(position));
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                        Log.d("x", "onItemClick: " + Integer.toString(position));
+                    }
+                })
+        );
     }
 
     private void registerCategoryObserver() {
