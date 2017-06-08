@@ -1,4 +1,4 @@
-package com.bwldr.flashcards.db.util;
+package com.bwldr.flashcards.util;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -9,6 +9,8 @@ import com.bwldr.flashcards.db.Category;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
+;
 
 /**
  * Test helpers

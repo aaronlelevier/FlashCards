@@ -6,7 +6,7 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.bwldr.flashcards.db.util.Util;
+import com.bwldr.flashcards.util.Util;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +14,9 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import static com.bwldr.flashcards.db.util.Util.getValue;
+import static com.bwldr.flashcards.util.Util.getValue;
 import static junit.framework.Assert.assertEquals;
+
 
 @RunWith(AndroidJUnit4.class)
 public class CategoryTest {
