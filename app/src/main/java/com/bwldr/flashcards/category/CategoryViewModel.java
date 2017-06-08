@@ -48,6 +48,10 @@ public class CategoryViewModel extends AndroidViewModel {
         return mCategories;
     }
 
+    public Category getListItem(int position) {
+        return mCategories.getValue().get(position);
+    }
+
     private class InsertCategoriesTask extends AsyncTask<List<Category>, Void, Void> {
         @Override
         protected Void doInBackground(List<Category>... params) {

@@ -38,8 +38,9 @@ dependencies {
     compile 'android.arch.persistence.room:runtime:' + rootProject.archRoomVersion;
 
     // Retrofit & OkHttp
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0';
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0';
+    compile 'com.android.support.constraint:constraint-layout:1.0.2';
 
     annotationProcessor 'android.arch.lifecycle:compiler:' + rootProject.archLifecycleVersion;
     annotationProcessor 'android.arch.persistence.room:compiler:' + rootProject.archRoomVersion;

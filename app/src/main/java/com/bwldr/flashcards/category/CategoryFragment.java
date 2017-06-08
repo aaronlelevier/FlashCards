@@ -3,6 +3,7 @@ package com.bwldr.flashcards.category;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.bwldr.flashcards.R;
 import com.bwldr.flashcards.db.Category;
+import com.bwldr.flashcards.stack.StackActivity;
 import com.bwldr.flashcards.util.RecyclerItemClickListener;
 
 import java.util.List;
@@ -63,6 +65,10 @@ public class CategoryFragment extends LifecycleFragment {
                     @Override
                     public void onItemClick(View view, int position) {
                         Log.d("x", "onItemClick: " + Integer.toString(position));
+                        Category category = mCategoryViewModel.getListItem(position);
+                        Intent intent = new Intent(getActivity(), StackActivity.class);
+                        intent.putExtra("categoryId", category.id);
+                        startActivity(intent);
                     }
 
                     @Override
