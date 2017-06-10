@@ -16,12 +16,41 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            applicationIdSuffix ".debug"
+        }
     }
     dataBinding {
         enabled = true
     }
     dexOptions {
         javaMaxHeapSize "2048M"
+    }
+    productFlavors {
+        mock {
+            applicationIdSuffix ".mock"
+            versionNameSuffix "-mock"
+        }
+        prod {
+            applicationIdSuffix ".prod"
+            versionNameSuffix "-prod"
+        }
+    }
+    sourceSets {
+        mock {
+            java.srcDirs = ["src/main/java", "src/mock/java"]
+        }
+        prod {
+            java.srcDirs = ["src/main/java", "src/prod/java"]
+        }
+    }
+
+    // Remove mockRelease as it's not needed.
+    android.variantFilter { variant ->
+        if(variant.buildType.name.equals('release')
+                && variant.getFlavors().get(0).name.equals('mock')) {
+            variant.setIgnore(true);
+        }
     }
 }
 
