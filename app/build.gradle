@@ -29,22 +29,10 @@ android {
     productFlavors {
         mock {
             applicationIdSuffix ".mock"
-            versionNameSuffix "-mock"
         }
         prod {
-            applicationIdSuffix ".prod"
-            versionNameSuffix "-prod"
         }
     }
-    sourceSets {
-        mock {
-            java.srcDirs = ["src/main/java", "src/mock/java"]
-        }
-        prod {
-            java.srcDirs = ["src/main/java", "src/prod/java"]
-        }
-    }
-
     // Remove mockRelease as it's not needed.
     android.variantFilter { variant ->
         if(variant.buildType.name.equals('release')
