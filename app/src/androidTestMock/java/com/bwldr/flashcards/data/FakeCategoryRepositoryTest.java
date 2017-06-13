@@ -22,33 +22,33 @@ import static junit.framework.Assert.assertTrue;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class FakeCategoryServiceTest {
+public class FakeCategoryRepositoryTest {
 
     private Context mContext;
-    private FakeCategoryService mFakeCategoryService;
+    private FakeCategoryRepository mFakeCategoryRepository;
 
     @Before
     public void setUp() {
         mContext = InstrumentationRegistry.getTargetContext();
-        mFakeCategoryService = new FakeCategoryService(mContext);
+        mFakeCategoryRepository = new FakeCategoryRepository(mContext);
     }
 
     @Test
     public void insert() {
-        assertEquals(0, mFakeCategoryService.selectAll().getValue().size());
+        assertEquals(0, mFakeCategoryRepository.selectAll().getValue().size());
         Category category = Util.create_category("foo");
 
-        mFakeCategoryService.insert(category);
-        assertEquals(1, mFakeCategoryService.selectAll().getValue().size());
-        assertEquals(category, mFakeCategoryService.selectAll().getValue().get(0));
+        mFakeCategoryRepository.insert(category);
+        assertEquals(1, mFakeCategoryRepository.selectAll().getValue().size());
+        assertEquals(category, mFakeCategoryRepository.selectAll().getValue().get(0));
     }
 
     @Test
     public void selectAll() {
         Category category = Util.create_category("foo");
-        mFakeCategoryService.insert(category);
+        mFakeCategoryRepository.insert(category);
 
-        LiveData<List<Category>> categories = mFakeCategoryService.selectAll();
+        LiveData<List<Category>> categories = mFakeCategoryRepository.selectAll();
 
         assertTrue(categories.getValue() != null);
         assertEquals(categories.getValue().size(), 1);

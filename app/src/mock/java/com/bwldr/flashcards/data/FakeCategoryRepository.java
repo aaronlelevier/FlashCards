@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * For testing using mocks, vs. actual CategoryService
+ * For testing using mocks, vs. actual CategoryRepository
  */
-public class FakeCategoryService implements CategoryServiceContract {
+public class FakeCategoryRepository implements CategoryRepositoryContract {
 
     private Context mContext;
     private final List<Category> mCategories = new ArrayList<>();
 
-    public FakeCategoryService(Context context) {
+    public FakeCategoryRepository(Context context) {
         mContext = context;
     }
 

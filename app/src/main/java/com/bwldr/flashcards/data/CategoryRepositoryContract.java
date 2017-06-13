@@ -7,9 +7,9 @@ import com.bwldr.flashcards.db.Category;
 import java.util.List;
 
 /**
- * Contract to be followed by Fake and Real CategoryService implementations.
+ * Contract to be followed by Fake and Real CategoryRepository implementations.
  */
-public interface CategoryServiceContract {
+public interface CategoryRepositoryContract {
 
     LiveData<List<Category>> selectAll();
 
