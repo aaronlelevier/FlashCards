@@ -6,6 +6,7 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.bwldr.flashcards.util.TestUtil;
 import com.bwldr.flashcards.util.Util;
 
 import org.junit.Before;
@@ -14,7 +15,6 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import static com.bwldr.flashcards.util.Util.getValue;
 import static junit.framework.Assert.assertEquals;
 
 
@@ -40,7 +40,7 @@ public class CategoryTest {
 
         List<Category> categories = null;
         try {
-            categories = getValue(ret);
+            categories = TestUtil.getValue(ret);
         } catch (InterruptedException e) {
             // LiveData ret failed
         }

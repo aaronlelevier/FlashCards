@@ -12,4 +12,6 @@ import java.util.List;
 public interface CategoryServiceContract {
 
     LiveData<List<Category>> selectAll();
+
+    void insert(Category category);
 }

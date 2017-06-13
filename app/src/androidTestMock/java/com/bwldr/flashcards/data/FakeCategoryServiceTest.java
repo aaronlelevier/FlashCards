@@ -6,6 +6,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.bwldr.flashcards.db.Category;
+import com.bwldr.flashcards.util.Util;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,13 +34,26 @@ public class FakeCategoryServiceTest {
     }
 
     @Test
+    public void insert() {
+        assertEquals(0, mFakeCategoryService.selectAll().getValue().size());
+        Category category = Util.create_category("foo");
+
+        mFakeCategoryService.insert(category);
+        assertEquals(1, mFakeCategoryService.selectAll().getValue().size());
+        assertEquals(category, mFakeCategoryService.selectAll().getValue().get(0));
+    }
+
+    @Test
     public void selectAll() {
+        Category category = Util.create_category("foo");
+        mFakeCategoryService.insert(category);
+
         LiveData<List<Category>> categories = mFakeCategoryService.selectAll();
 
         assertTrue(categories.getValue() != null);
         assertEquals(categories.getValue().size(), 1);
-        Category category = categories.getValue().get(0);
-        assertTrue(category.id != null);
-        assertTrue(category.name != null);
+        Category category2 = categories.getValue().get(0);
+        assertEquals(category.id, category2.id);
+        assertEquals(category.name, category2.name);
     }
 }
