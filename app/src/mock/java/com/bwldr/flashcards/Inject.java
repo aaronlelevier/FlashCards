@@ -1,8 +1,21 @@
 package com.bwldr.flashcards;
 
-/**
- * Created by aaron on 6/10/17.
- */
+import com.bwldr.flashcards.data.CategoryRepositoryContract;
+import com.bwldr.flashcards.data.FakeCategoryRepository;
+
 
 public class Inject {
+
+    private static CategoryRepositoryContract mCategoryRepository = null;
+
+    private Inject() {
+        throw new AssertionError("Can't be instantiated because this is a static class");
+    }
+
+    public synchronized static CategoryRepositoryContract getCategoryRepository() {
+        if (mCategoryRepository == null) {
+            mCategoryRepository = new FakeCategoryRepository(null);
+        }
+        return mCategoryRepository;
+    }
 }
