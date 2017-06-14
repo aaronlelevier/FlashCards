@@ -37,6 +37,7 @@ public class ServiceGenerator {
         return retrofit.create(serviceClass);
     }
 
+    // TODO: have not yet implemented with AuthToken here, and on "bwldr-rest-api"
     public static <S> S createService(Class<S> serviceClass, final String authToken) {
         if (!TextUtils.isEmpty(authToken)) {
             Interceptor authInterceptor = getAuthenticationInterceptor(authToken);

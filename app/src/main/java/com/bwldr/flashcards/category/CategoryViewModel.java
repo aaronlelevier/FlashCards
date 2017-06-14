@@ -7,8 +7,8 @@ import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.bwldr.flashcards.Inject;
 import com.bwldr.flashcards.api.ApiClient;
-import com.bwldr.flashcards.api.ServiceGenerator;
 import com.bwldr.flashcards.db.AppDatabase;
 import com.bwldr.flashcards.db.Category;
 
@@ -28,7 +28,7 @@ public class CategoryViewModel extends AndroidViewModel {
         mDb = Room.inMemoryDatabaseBuilder(this.getApplication(), AppDatabase.class).build();
         mCategories = mDb.categoryDao().selectAll();
 
-        ApiClient client = ServiceGenerator.createService(ApiClient.class);
+        ApiClient client = Inject.getApiClient();
         Call<List<Category>> call = client.categoriesList();
         call.enqueue(new Callback<List<Category>>() {
             @Override
@@ -55,9 +55,11 @@ public class CategoryViewModel extends AndroidViewModel {
     private class InsertCategoriesTask extends AsyncTask<List<Category>, Void, Void> {
         @Override
         protected Void doInBackground(List<Category>... params) {
-            List<Category> data = params[0];
-            for (Category category : data) {
-                mDb.categoryDao().insert(category);
+            if (params[0] != null) {
+                List<Category> data = params[0];
+                for (Category category : data) {
+                    mDb.categoryDao().insert(category);
+                }
             }
             return null;
         }
