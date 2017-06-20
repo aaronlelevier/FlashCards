@@ -17,7 +17,7 @@ public class FakeCategoryRepository implements CategoryRepositoryContract {
     private final List<Category> mCategories = new ArrayList<>();
 
     public FakeCategoryRepository(Context context) {
-        mContext = context;
+        // not used by "mock" flavor at this time
     }
 
     public void insert(Category category) {

@@ -3,13 +3,12 @@ package com.bwldr.flashcards.category;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.bwldr.flashcards.Inject;
 import com.bwldr.flashcards.api.ApiClient;
-import com.bwldr.flashcards.db.AppDatabase;
+import com.bwldr.flashcards.data.CategoryRepositoryContract;
 import com.bwldr.flashcards.db.Category;
 
 import java.util.List;
@@ -20,13 +19,14 @@ import retrofit2.Response;
 
 public class CategoryViewModel extends AndroidViewModel {
 
-    private AppDatabase mDb;
+    private CategoryRepositoryContract mCategoryRepo;
     private LiveData<List<Category>> mCategories;
 
     public CategoryViewModel(Application application) {
         super(application);
-        mDb = Room.inMemoryDatabaseBuilder(this.getApplication(), AppDatabase.class).build();
-        mCategories = mDb.categoryDao().selectAll();
+
+        mCategoryRepo = Inject.getCategoryRepository(this.getApplication());
+        mCategories = mCategoryRepo.selectAll();
 
         ApiClient client = Inject.getApiClient();
         Call<List<Category>> call = client.categoriesList();
@@ -58,7 +58,7 @@ public class CategoryViewModel extends AndroidViewModel {
             if (params[0] != null) {
                 List<Category> data = params[0];
                 for (Category category : data) {
-                    mDb.categoryDao().insert(category);
+                    mCategoryRepo.insert(category);
                 }
             }
             return null;

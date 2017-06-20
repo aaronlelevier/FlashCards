@@ -1,5 +1,7 @@
 package com.bwldr.flashcards;
 
+import android.content.Context;
+
 import com.bwldr.flashcards.api.ApiClient;
 import com.bwldr.flashcards.api.ServiceGenerator;
 import com.bwldr.flashcards.data.CategoryRepositoryContract;
@@ -22,9 +24,9 @@ public class Inject {
         return mApiClient;
     }
 
-    public synchronized static CategoryRepositoryContract getCategoryRepository() {
+    public synchronized static CategoryRepositoryContract getCategoryRepository(Context context) {
         if (mCategoryRepository == null) {
-            mCategoryRepository = new FakeCategoryRepository(null);
+            mCategoryRepository = new FakeCategoryRepository(context);
         }
         return mCategoryRepository;
     }
