@@ -53,6 +53,7 @@ public class CategoryViewModel extends AndroidViewModel {
     }
 
     private class InsertCategoriesTask extends AsyncTask<List<Category>, Void, Void> {
+
         @Override
         protected Void doInBackground(List<Category>... params) {
             if (params[0] != null) {
@@ -61,6 +62,7 @@ public class CategoryViewModel extends AndroidViewModel {
                     mCategoryRepo.insert(category);
                 }
             }
+            mCategoryRepo.setCategories(mCategoryRepo.getCategories());
             return null;
         }
     }

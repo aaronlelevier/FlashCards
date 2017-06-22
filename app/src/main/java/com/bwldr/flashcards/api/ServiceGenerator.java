@@ -22,7 +22,7 @@ public class ServiceGenerator {
 
     private static Retrofit retrofit;
 
-    private static final String BASE_URL = "http://cd03e7e8.ngrok.io/";
+    private static final String BASE_URL = "http://ff25ac37.ngrok.io/";
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()
@@ -31,10 +31,19 @@ public class ServiceGenerator {
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
+    /**
+     * Generic impl
+     */
     public static <S> S createService(Class<S> serviceClass) {
         builder.client(httpClient.build());
         retrofit = builder.build();
         return retrofit.create(serviceClass);
+    }
+
+    public static ApiClient createServiceApiClient() {
+        builder.client(httpClient.build());
+        retrofit = builder.build();
+        return retrofit.create(ApiClient.class);
     }
 
     // TODO: have not yet implemented with AuthToken here, and on "bwldr-rest-api"
