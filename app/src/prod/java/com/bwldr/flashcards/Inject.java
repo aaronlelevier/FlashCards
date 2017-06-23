@@ -18,7 +18,7 @@ public class Inject {
 
     public synchronized static ApiClient getApiClient() {
         if (mApiClient == null) {
-            mApiClient = ServiceGenerator.createServiceApiClient();
+            mApiClient = ServiceGenerator.createService();
         }
         return mApiClient;
     }

@@ -19,7 +19,7 @@ public class Inject {
     // TODO: this should return "FakeServiceGenerator"
     public static ApiClient getApiClient() {
         if (mApiClient == null) {
-            mApiClient = FakeServiceGenerator.createServiceApiClient();
+            mApiClient = FakeServiceGenerator.createService();
         }
         return mApiClient;
     }

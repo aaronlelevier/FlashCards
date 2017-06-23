@@ -31,15 +31,8 @@ public class ServiceGenerator {
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-    /** Generic */
-    public static <S> S createService(Class<S> serviceClass) {
-        builder.client(httpClient.build());
-        retrofit = builder.build();
-        return retrofit.create(serviceClass);
-    }
-
     /** Non-Generic */
-    public static ApiClient createServiceApiClient() {
+    public static ApiClient createService() {
         builder.client(httpClient.build());
         retrofit = builder.build();
         return retrofit.create(ApiClient.class);

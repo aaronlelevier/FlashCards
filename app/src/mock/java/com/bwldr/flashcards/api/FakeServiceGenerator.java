@@ -17,7 +17,7 @@ public class FakeServiceGenerator {
 
     private static final String BASE_URL = "http://cd03e7e8.ngrok.io/";
 
-    public static ApiClient createServiceApiClient() {
+    public static ApiClient createService() {
         // Create a very simple Retrofit adapter which points the GitHub API.
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
