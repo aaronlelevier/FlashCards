@@ -14,8 +14,4 @@ public interface CategoryRepositoryContract {
     LiveData<List<Category>> selectAll();
 
     void insert(Category category);
-
-    void setCategories(List<Category> categories);
-
-    List<Category> getCategories();
 }

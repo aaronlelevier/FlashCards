@@ -25,9 +25,11 @@ public class CategoryViewModel extends AndroidViewModel {
     public CategoryViewModel(Application application) {
         super(application);
 
+        // Inject Repo
         mCategoryRepo = Inject.getCategoryRepository(this.getApplication());
         mCategories = mCategoryRepo.selectAll();
 
+        // Inject ApiClient
         ApiClient client = Inject.getApiClient();
         Call<List<Category>> call = client.categoriesList();
         call.enqueue(new Callback<List<Category>>() {
@@ -44,12 +46,14 @@ public class CategoryViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<List<Category>> getListData() {
+    LiveData<List<Category>> getListData() {
         return mCategories;
     }
 
-    public Category getListItem(int position) {
-        return mCategories.getValue().get(position);
+    Category getListItem(int position) {
+        if (mCategories.getValue() != null)
+            return mCategories.getValue().get(position);
+        return null;
     }
 
     private class InsertCategoriesTask extends AsyncTask<List<Category>, Void, Void> {
@@ -62,7 +66,6 @@ public class CategoryViewModel extends AndroidViewModel {
                     mCategoryRepo.insert(category);
                 }
             }
-            mCategoryRepo.setCategories(mCategoryRepo.getCategories());
             return null;
         }
     }

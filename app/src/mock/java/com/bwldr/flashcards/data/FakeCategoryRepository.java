@@ -23,15 +23,9 @@ public class FakeCategoryRepository implements CategoryRepositoryContract {
 
     public void insert(Category category) {
         mCategories.add(category);
-    }
 
-    public List<Category> getCategories() {
-        return mCategories;
-    }
-
-    @Override
-    public void setCategories(List<Category> categories) {
-        mCategoriesMutable.postValue(categories);
+        // call to update categories from background thread
+        mCategoriesMutable.postValue(mCategories);
     }
 
     @Override
