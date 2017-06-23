@@ -1,9 +1,5 @@
 package com.bwldr.flashcards.api;
 
-/**
- * Created by aaron on 6/6/17.
- */
-
 import android.text.TextUtils;
 
 import java.io.IOException;
