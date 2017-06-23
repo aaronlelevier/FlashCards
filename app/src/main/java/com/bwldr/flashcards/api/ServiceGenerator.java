@@ -9,11 +9,12 @@ import android.text.TextUtils;
 import java.io.IOException;
 
 import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.bwldr.flashcards.api.ServiceGeneratorContract.builder;
+import static com.bwldr.flashcards.api.ServiceGeneratorContract.httpClient;
 
 /**
  * Generates a singleton OkHttpClient, and handles Interceptor logic
@@ -21,15 +22,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServiceGenerator {
 
     private static Retrofit retrofit;
-
-    private static final String BASE_URL = "http://ff25ac37.ngrok.io/";
-
-    private static Retrofit.Builder builder =
-            new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create());
-
-    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     /** Non-Generic */
     public static ApiClient createService() {

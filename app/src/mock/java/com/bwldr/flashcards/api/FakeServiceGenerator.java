@@ -13,15 +13,12 @@ import retrofit2.mock.MockRetrofit;
 import retrofit2.mock.NetworkBehavior;
 
 
-public class FakeServiceGenerator {
-
-    private static final String BASE_URL = "http://cd03e7e8.ngrok.io/";
+public class FakeServiceGenerator implements ServiceGeneratorContract {
 
     public static ApiClient createService() {
-        // Create a very simple Retrofit adapter which points the GitHub API.
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .build();
+        // Create a very simple Retrofit adapter which points the API.
+        builder.client(httpClient.build());
+        Retrofit retrofit = builder.build();
 
         // Create a MockRetrofit object with a NetworkBehavior which manages the fake behavior of calls.
         NetworkBehavior behavior = NetworkBehavior.create();
@@ -33,12 +30,12 @@ public class FakeServiceGenerator {
         return new MockApiClient(delegate);
     }
 
-    public static class MockApiClient implements ApiClient {
+    private static class MockApiClient implements ApiClient {
 
         private final BehaviorDelegate<ApiClient> mDelegate;
         private final List<Category> mCategories = new ArrayList<>();
 
-        public MockApiClient(BehaviorDelegate<ApiClient> delegate) {
+        MockApiClient(BehaviorDelegate<ApiClient> delegate) {
             this.mDelegate = delegate;
 
             mCategories.add(Util.create_category("Java"));
