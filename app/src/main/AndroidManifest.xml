@@ -11,14 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".category.CategoryActivity">
+        <activity android:name=".category.CategoryActivity"
+            android:label="@string/categories">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".stack.StackActivity"></activity>
+        <activity android:name=".stack.StackActivity"
+            android:label="@string/card_stacks"/>
     </application>
 
 </manifest>
