@@ -22,23 +22,23 @@ import static junit.framework.Assert.assertTrue;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class FakeCategoryRepositoryTest {
+public class MockCategoryRepositoryTest {
 
     private Context mContext;
-    private FakeCategoryRepository mFakeCategoryRepository;
+    private MockCategoryRepository mMockCategoryRepository;
 
     @Before
     public void setUp() {
         mContext = InstrumentationRegistry.getTargetContext();
-        mFakeCategoryRepository = new FakeCategoryRepository(mContext);
+        mMockCategoryRepository = new MockCategoryRepository(mContext);
     }
 
     @Test
     public void selectAll() {
         Category category = Util.create_category("foo");
-        mFakeCategoryRepository.insert(category);
+        mMockCategoryRepository.insert(category);
 
-        LiveData<List<Category>> categories = mFakeCategoryRepository.selectAll();
+        LiveData<List<Category>> categories = mMockCategoryRepository.selectAll();
 
         assertTrue(categories.getValue() != null);
         assertEquals(categories.getValue().size(), 1);

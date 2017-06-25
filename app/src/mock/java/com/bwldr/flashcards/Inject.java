@@ -3,9 +3,9 @@ package com.bwldr.flashcards;
 import android.content.Context;
 
 import com.bwldr.flashcards.api.ApiClient;
-import com.bwldr.flashcards.api.FakeServiceGenerator;
+import com.bwldr.flashcards.api.MockServiceGenerator;
 import com.bwldr.flashcards.data.CategoryRepositoryContract;
-import com.bwldr.flashcards.data.FakeCategoryRepository;
+import com.bwldr.flashcards.data.MockCategoryRepository;
 
 
 public class Inject {
@@ -16,17 +16,16 @@ public class Inject {
     private Inject() {
     }
 
-    // TODO: this should return "FakeServiceGenerator"
     public static ApiClient getApiClient() {
         if (mApiClient == null) {
-            mApiClient = FakeServiceGenerator.createService();
+            mApiClient = MockServiceGenerator.createService();
         }
         return mApiClient;
     }
 
     public synchronized static CategoryRepositoryContract getCategoryRepository(Context context) {
         if (mCategoryRepository == null) {
-            mCategoryRepository = new FakeCategoryRepository(context);
+            mCategoryRepository = new MockCategoryRepository(context);
         }
         return mCategoryRepository;
     }

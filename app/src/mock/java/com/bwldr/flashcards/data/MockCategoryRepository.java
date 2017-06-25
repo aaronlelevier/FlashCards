@@ -12,12 +12,12 @@ import java.util.List;
 /**
  * For testing using mocks, vs. actual CategoryRepository
  */
-public class FakeCategoryRepository implements CategoryRepositoryContract {
+public class MockCategoryRepository implements CategoryRepositoryContract {
 
     private final List<Category> mCategories = new ArrayList<>();
     private final MutableLiveData<List<Category>> mCategoriesMutable = new MutableLiveData<>();
 
-    public FakeCategoryRepository(Context context) {
+    public MockCategoryRepository(Context context) {
         // not used by "mock" flavor at this time
         mCategoriesMutable.postValue(mCategories);
     }

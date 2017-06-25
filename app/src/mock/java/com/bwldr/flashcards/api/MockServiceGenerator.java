@@ -13,7 +13,7 @@ import retrofit2.mock.MockRetrofit;
 import retrofit2.mock.NetworkBehavior;
 
 
-public class FakeServiceGenerator implements ServiceGeneratorContract {
+public class MockServiceGenerator implements ServiceGeneratorContract {
 
     public static ApiClient createService() {
         // Create a very simple Retrofit adapter which points the API.
