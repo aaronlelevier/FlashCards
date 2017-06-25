@@ -34,16 +34,6 @@ public class FakeCategoryRepositoryTest {
     }
 
     @Test
-    public void insert() {
-        assertEquals(0, mFakeCategoryRepository.selectAll().getValue().size());
-        Category category = Util.create_category("foo");
-
-        mFakeCategoryRepository.insert(category);
-        assertEquals(1, mFakeCategoryRepository.selectAll().getValue().size());
-        assertEquals(category, mFakeCategoryRepository.selectAll().getValue().get(0));
-    }
-
-    @Test
     public void selectAll() {
         Category category = Util.create_category("foo");
         mFakeCategoryRepository.insert(category);

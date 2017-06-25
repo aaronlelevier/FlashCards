@@ -19,6 +19,7 @@ public class FakeCategoryRepository implements CategoryRepositoryContract {
 
     public FakeCategoryRepository(Context context) {
         // not used by "mock" flavor at this time
+        mCategoriesMutable.postValue(mCategories);
     }
 
     public void insert(Category category) {
