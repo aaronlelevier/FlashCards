@@ -1,7 +1,7 @@
 package com.bwldr.flashcards.api;
 
 import com.bwldr.flashcards.db.Category;
-import com.bwldr.flashcards.util.Util;
+import com.bwldr.flashcards.util.MockUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +37,16 @@ public class MockServiceGenerator implements ServiceGeneratorContract {
 
         MockApiClient(BehaviorDelegate<ApiClient> delegate) {
             this.mDelegate = delegate;
-
-            mCategories.add(Util.create_category("Java"));
         }
 
         @Override
         public Call<List<Category>> categoriesList() {
+            if (mCategories.size() == 0) {
+                List<Category> categories = MockUtil.getCategories();
+                for (Category category: categories) {
+                    mCategories.add(category);
+                }
+            }
             return mDelegate.returningResponse(mCategories).categoriesList();
         }
     }

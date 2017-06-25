@@ -10,24 +10,10 @@ import java.util.List;
 
 public class MockUtil extends Util {
 
-    public static List<Object> createDbData() {
-        List<Object> data = new ArrayList<>();
+    private static HashMap<String, List<Object>> mFixtureData;
 
-        Category category = Util.create_category("Java");
-        Stack stack = new Stack(category.id, "Field Modifiers");
-        Stack stack2 = new Stack(category.id, "Control Flow Statements");
-        Card card = new Card(stack.id, "public", "can be accessed by anything");
-        Card card2 = new Card(stack.id, "private", "can only be accessed internally");
-        Card card3 = new Card(stack2.id, "if-then", "single 'if' block");
-
-        data.add(category);
-        data.add(stack);
-        data.add(stack2);
-        data.add(card);
-        data.add(card2);
-        data.add(card3);
-
-        return data;
+    public static HashMap<String, List<Object>> getFixtureData() {
+        return mFixtureData;
     }
 
     public static List<Category> createCategories() {
@@ -37,26 +23,47 @@ public class MockUtil extends Util {
     }
 
     public static HashMap<String, List<Object>> createFixtureData() {
-        HashMap<String, List<Object>> data = new HashMap<>();
+        if (mFixtureData == null) {
+            HashMap<String, List<Object>> data = new HashMap<>();
 
-        List<Object> categories = new ArrayList<>();
-        Category category = Util.create_category("Java");
-        categories.add(category);
-        data.put("Category", categories);
+            List<Object> categories = new ArrayList<>();
+            Category category = Util.create_category("Java");
+            categories.add(category);
+            data.put("Category", categories);
 
-        List<Object> stacks = new ArrayList<>();
-        Stack stack = new Stack(category.id, "Field Modifiers");
-        stacks.add(stack);
-        Stack stack2 = new Stack(category.id, "Control Flow Statements");
-        stacks.add(stack2);
-        data.put("Stack", stacks);
+            List<Object> stacks = new ArrayList<>();
+            Stack stack = new Stack(category.id, "Field Modifiers");
+            stacks.add(stack);
+            Stack stack2 = new Stack(category.id, "Control Flow Statements");
+            stacks.add(stack2);
+            data.put("Stack", stacks);
 
-        List<Object> cards = new ArrayList<>();
-        cards.add(new Card(stack.id, "public", "can be accessed by anything"));
-        cards.add(new Card(stack.id, "private", "can only be accessed internally"));
-        cards.add(new Card(stack2.id, "if-then", "single 'if' block"));
-        data.put("Card", cards);
+            List<Object> cards = new ArrayList<>();
+            cards.add(new Card(stack.id, "public", "can be accessed by anything"));
+            cards.add(new Card(stack.id, "private", "can only be accessed internally"));
+            cards.add(new Card(stack2.id, "if-then", "single 'if' block"));
+            data.put("Card", cards);
 
-        return data;
+            mFixtureData = data;
+        }
+        return mFixtureData;
+    }
+
+    public static List<Category> getCategories() {
+        createFixtureData();
+        List<? extends Object> categories = mFixtureData.get("Category");
+        return (List<Category>)categories;
+    }
+
+    public static List<Stack> getStacks() {
+        createFixtureData();
+        List<? extends Object> stacks = mFixtureData.get("Stack");
+        return (List<Stack>)stacks;
+    }
+
+    public static List<Card> getCards() {
+        createFixtureData();
+        List<? extends Object> cards = mFixtureData.get("Category");
+        return (List<Card>)cards;
     }
 }
