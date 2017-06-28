@@ -1,4 +1,5 @@
-package com.bwldr.flashcards.category;
+package com.bwldr.flashcards.stack;
+
 
 import android.arch.lifecycle.LiveData;
 import android.support.v7.widget.RecyclerView;
@@ -8,17 +9,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bwldr.flashcards.R;
-import com.bwldr.flashcards.db.Category;
+import com.bwldr.flashcards.db.Stack;
 
 import java.util.List;
 
+public class StackAdapter extends RecyclerView.Adapter<StackAdapter.ViewHolder> {
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
+    private LiveData<List<Stack>> mStacks;
 
-    private LiveData<List<Category>> mCategories;
-
-    public CategoryAdapter(LiveData<List<Category>> categories) {
-        mCategories = categories;
+    public StackAdapter(LiveData<List<Stack>> stacks) {
+        mStacks = stacks;
     }
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -29,15 +29,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        Category category = mCategories.getValue().get(position);
-        viewHolder.mTextView.setText(category.name);
+        Stack stack = mStacks.getValue().get(position);
+        viewHolder.mTextView.setText(stack.title);
     }
 
     @Override
     public int getItemCount() {
         int count = 0;
-        if (mCategories.getValue() != null)
-            count = mCategories.getValue().size();
+        if (mStacks.getValue() != null)
+            count = mStacks.getValue().size();
         return count;
     }
 

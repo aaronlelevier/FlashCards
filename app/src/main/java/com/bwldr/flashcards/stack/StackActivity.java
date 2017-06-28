@@ -16,5 +16,11 @@ public class StackActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String categoryId = intent.getStringExtra("categoryId");
         Log.d("categoryId", categoryId);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, StackFragment.newInstance(categoryId))
+                    .commit();
+        }
     }
 }

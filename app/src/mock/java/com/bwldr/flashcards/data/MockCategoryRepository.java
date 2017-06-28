@@ -18,7 +18,7 @@ public class MockCategoryRepository implements CategoryRepositoryContract {
     private final MutableLiveData<List<Category>> mCategoriesMutable = new MutableLiveData<>();
 
     public MockCategoryRepository(Context context) {
-        // not used by "mock" flavor at this time
+        // "context" not used by "mock" flavor
         mCategoriesMutable.postValue(mCategories);
     }
 

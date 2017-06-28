@@ -1,6 +1,7 @@
 package com.bwldr.flashcards.api;
 
 import com.bwldr.flashcards.db.Category;
+import com.bwldr.flashcards.db.Stack;
 import com.bwldr.flashcards.util.MockUtil;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class MockServiceGenerator implements ServiceGeneratorContract {
 
         private final BehaviorDelegate<ApiClient> mDelegate;
         private final List<Category> mCategories = new ArrayList<>();
+        private final List<Stack> mStacks = new ArrayList<>();
 
         MockApiClient(BehaviorDelegate<ApiClient> delegate) {
             this.mDelegate = delegate;
@@ -48,6 +50,17 @@ public class MockServiceGenerator implements ServiceGeneratorContract {
                 }
             }
             return mDelegate.returningResponse(mCategories).categoriesList();
+        }
+
+        @Override
+        public Call<List<Stack>> stacksList(String categoryId) {
+            if (mStacks.size() == 0) {
+                List<Stack> stacks = MockUtil.getStacks();
+                for (Stack category: stacks) {
+                    mStacks.add(category);
+                }
+            }
+            return mDelegate.returningResponse(mStacks).stacksList(categoryId);
         }
     }
 }

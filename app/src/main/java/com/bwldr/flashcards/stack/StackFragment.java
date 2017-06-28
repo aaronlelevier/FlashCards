@@ -1,4 +1,4 @@
-package com.bwldr.flashcards.category;
+package com.bwldr.flashcards.stack;
 
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
@@ -15,28 +15,36 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bwldr.flashcards.R;
-import com.bwldr.flashcards.db.Category;
-import com.bwldr.flashcards.stack.StackActivity;
+import com.bwldr.flashcards.db.Stack;
 import com.bwldr.flashcards.util.RecyclerItemClickListener;
 
 import java.util.List;
 
 
-public class CategoryFragment extends LifecycleFragment {
+public class StackFragment extends LifecycleFragment {
+
+    private static final String CATEGORY_ID = "CATEGORY_ID";
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private CategoryViewModel mCategoryViewModel;
+    private StackViewModel mStackViewModel;
 
-    public static CategoryFragment newInstance() {
-        return new CategoryFragment();
+    public static StackFragment newInstance(String categoryId) {
+        StackFragment fragment = new StackFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(CATEGORY_ID, categoryId);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCategoryViewModel = ViewModelProviders.of(getActivity()).get(CategoryViewModel.class);
+
+        mStackViewModel = ViewModelProviders.of(getActivity()).get(StackViewModel.class);
+        String categoryId = (String) getArguments().get(CATEGORY_ID);
+        mStackViewModel.getStacks(categoryId);
     }
 
     @Override
@@ -53,7 +61,7 @@ public class CategoryFragment extends LifecycleFragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        registerCategoryObserver();
+        registerStackObserver();
 
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
                 DividerItemDecoration.VERTICAL);
@@ -64,9 +72,9 @@ public class CategoryFragment extends LifecycleFragment {
                     @Override
                     public void onItemClick(View view, int position) {
                         Log.d("x", "onItemClick: " + Integer.toString(position));
-                        Category category = mCategoryViewModel.getListItem(position);
+                        Stack stack = mStackViewModel.getListItem(position);
                         Intent intent = new Intent(getActivity(), StackActivity.class);
-                        intent.putExtra("categoryId", category.id);
+                        intent.putExtra("stackId", stack.id);
                         startActivity(intent);
                     }
 
@@ -78,11 +86,11 @@ public class CategoryFragment extends LifecycleFragment {
         );
     }
 
-    private void registerCategoryObserver() {
-        mCategoryViewModel.getListData().observe(this, new Observer<List<Category>>() {
+    private void registerStackObserver() {
+        mStackViewModel.getListData().observe(this, new Observer<List<Stack>>() {
             @Override
-            public void onChanged(@Nullable List<Category> categories) {
-                mAdapter = new CategoryAdapter(mCategoryViewModel.getListData());
+            public void onChanged(@Nullable List<Stack> categories) {
+                mAdapter = new StackAdapter(mStackViewModel.getListData());
                 mRecyclerView.setAdapter(mAdapter);
             }
         });
