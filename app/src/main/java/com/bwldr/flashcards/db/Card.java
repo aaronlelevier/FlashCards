@@ -13,13 +13,13 @@ public class Card extends BaseRecord {
      */
     @ColumnInfo(name="stack_id")
     public String stackId;
-    public String title;
-    public String definition;
+    public String question;
+    public String answer;
 
-    public Card(String stackId, String title, String definition) {
+    public Card(String stackId, String question, String answer) {
         super();
         this.stackId = stackId;
-        this.title = title;
-        this.definition = definition;
+        this.question = question;
+        this.answer = answer;
     }
 }

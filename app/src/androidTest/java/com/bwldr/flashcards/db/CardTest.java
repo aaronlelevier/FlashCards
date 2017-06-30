@@ -52,8 +52,8 @@ public class CardTest {
         Card c = cards.get(0);
         assertEquals(36, c.id.length());
         assertEquals(36, c.stackId.length());
-        assertEquals("public", c.title);
-        assertEquals("can be accessed by anything", c.definition);
+        assertEquals("public", c.question);
+        assertEquals("can be accessed by anything", c.answer);
     }
 
     @Test

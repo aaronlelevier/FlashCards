@@ -60,18 +60,18 @@ public class MockUtilTest {
         // 0
         Card card = (Card)cards.get(0);
         assertTrue(card.stackId.equals(stack.id));
-        assertEquals("public", card.title);
-        assertEquals("can be accessed by anything", card.definition);
+        assertEquals("public", card.question);
+        assertEquals("can be accessed by anything", card.answer);
         // 1
         Card card2 = (Card)cards.get(1);
         assertTrue(card2.stackId.equals(stack.id));
-        assertEquals("private", card2.title);
-        assertEquals("can only be accessed internally", card2.definition);
+        assertEquals("private", card2.question);
+        assertEquals("can only be accessed internally", card2.answer);
         // 2
         Card card3 = (Card)cards.get(2);
         assertTrue(card3.stackId.equals(stack2.id));
-        assertEquals("if-then", card3.title);
-        assertEquals("single 'if' block", card3.definition);
+        assertEquals("if-then", card3.question);
+        assertEquals("single 'if' block", card3.answer);
     }
 
     @Test
