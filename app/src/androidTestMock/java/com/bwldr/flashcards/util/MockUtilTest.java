@@ -48,11 +48,11 @@ public class MockUtilTest {
         // 0
         Stack stack = (Stack)stacks.get(0);
         assertTrue(stack.categoryId.equals(category.id));
-        assertEquals("Field Modifiers", stack.title);
+        assertEquals("Field Modifiers", stack.name);
         // 1
         Stack stack2 = (Stack)stacks.get(1);
         assertTrue(stack2.categoryId.equals(category.id));
-        assertEquals("Control Flow Statements", stack2.title);
+        assertEquals("Control Flow Statements", stack2.name);
 
         // cards
         List<Object> cards = data.get("Card");

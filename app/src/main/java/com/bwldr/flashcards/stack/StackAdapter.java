@@ -30,7 +30,7 @@ public class StackAdapter extends RecyclerView.Adapter<StackAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Stack stack = mStacks.getValue().get(position);
-        viewHolder.mTextView.setText(stack.title);
+        viewHolder.mTextView.setText(stack.name);
     }
 
     @Override

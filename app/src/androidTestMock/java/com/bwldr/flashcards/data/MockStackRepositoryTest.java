@@ -38,12 +38,12 @@ public class MockStackRepositoryTest {
         Stack stack = new Stack(Util.genId(), "Modifiers");
         mMockStackRepository.insert(stack);
 
-        LiveData<List<Stack>> stacks = mMockStackRepository.selectById(0);
+        LiveData<List<Stack>> stacks = mMockStackRepository.selectById("1");
 
         assertTrue(stacks.getValue() != null);
         assertEquals(stacks.getValue().size(), 1);
         Stack stack2 = stacks.getValue().get(0);
         assertEquals(stack.id, stack2.id);
-        assertEquals(stack.title, stack2.title);
+        assertEquals(stack.name, stack2.name);
     }
 }

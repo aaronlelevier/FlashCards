@@ -49,7 +49,7 @@ public class StackTest {
         assertEquals(3, stacks.size());
         Stack s = stacks.get(0);
         assertEquals(36, s.id.length());
-        assertEquals("Field Modifiers", s.title);
+        assertEquals("Field Modifiers", s.name);
     }
 
     @Test

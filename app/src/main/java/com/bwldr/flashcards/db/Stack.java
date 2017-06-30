@@ -13,11 +13,11 @@ public class Stack extends BaseRecord {
      */
     @ColumnInfo(name = "category_id")
     public String categoryId;
-    public String title;
+    public String name;
 
-    public Stack(String categoryId, String title) {
+    public Stack(String categoryId, String name) {
         super();
         this.categoryId = categoryId;
-        this.title = title;
+        this.name = name;
     }
 }
