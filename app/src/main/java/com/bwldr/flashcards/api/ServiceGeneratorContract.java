@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public interface ServiceGeneratorContract {
 
-    String BASE_URL = "http://ff25ac37.ngrok.io/";
+    String BASE_URL = "https://aa0704e3.ngrok.io/";
 
     Retrofit.Builder builder =
             new Retrofit.Builder()

@@ -29,7 +29,6 @@ public class StackViewModel extends AndroidViewModel {
     public void getStacks(String categoryId) {
         // Inject Repo
         mStackRepo = Inject.getStackRepository(this.getApplication());
-
         mStacks = mStackRepo.selectById(categoryId);
 
         // Inject ApiClient
@@ -65,8 +64,9 @@ public class StackViewModel extends AndroidViewModel {
         protected Void doInBackground(List<Stack>... params) {
             if (params[0] != null) {
                 List<Stack> data = params[0];
-                for (Stack category : data) {
-                    mStackRepo.insert(category);
+                for (Stack stack : data) {
+                    Log.d("doInBackground", stack.toString());
+                    mStackRepo.insert(stack);
                 }
             }
             return null;

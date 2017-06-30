@@ -89,7 +89,7 @@ public class StackFragment extends LifecycleFragment {
     private void registerStackObserver() {
         mStackViewModel.getListData().observe(this, new Observer<List<Stack>>() {
             @Override
-            public void onChanged(@Nullable List<Stack> categories) {
+            public void onChanged(@Nullable List<Stack> stacks) {
                 mAdapter = new StackAdapter(mStackViewModel.getListData());
                 mRecyclerView.setAdapter(mAdapter);
             }

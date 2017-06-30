@@ -16,8 +16,14 @@ public class MockStackRepository implements StackRepositoryContract {
     private final MutableLiveData<List<Stack>> mStacksMutable = new MutableLiveData<>();
 
     public MockStackRepository(Context context) {
-        // "context" not used by "mock" flavor
+        // context - not used by "mock" flavor
         mStacksMutable.postValue(mStacks);
+    }
+
+    @Override
+    public LiveData<List<Stack>> selectById(String categoryId) {
+        // categoryId - param not used, only in prod Stack Repo
+        return mStacksMutable;
     }
 
     @Override
@@ -26,13 +32,5 @@ public class MockStackRepository implements StackRepositoryContract {
 
         // call to update Stacks on background thread
         mStacksMutable.postValue(mStacks);
-    }
-
-    /**
-     * @param categoryId - param not used, only in prod Stack Repo
-     */
-    @Override
-    public LiveData<List<Stack>> selectById(String categoryId) {
-        return mStacksMutable;
     }
 }

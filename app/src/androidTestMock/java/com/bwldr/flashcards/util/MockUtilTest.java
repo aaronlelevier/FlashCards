@@ -33,18 +33,24 @@ public class MockUtilTest {
     public void createFixtureData() {
         HashMap<String, List<Object>> data = MockUtil.createFixtureData();
 
-        // categories
+        // Category
         List<Object> categories = data.get("Category");
         assertTrue(categories != null);
-        assertEquals(1, categories.size());
+        assertEquals(2, categories.size());
+        // 1
         assertTrue(categories.get(0) instanceof Category);
         Category category = (Category)categories.get(0);
         assertTrue(category.id != null);
         assertEquals("Java", category.name);
+        // 2
+        Category category2 = (Category)categories.get(1);
+        assertTrue(category2.id != null);
+        assertEquals("Python", category2.name);
 
-        // stacks
+        // Stack
         List<Object> stacks = data.get("Stack");
-        assertEquals(2, stacks.size());
+        assertEquals(3, stacks.size());
+        // stack 1
         // 0
         Stack stack = (Stack)stacks.get(0);
         assertTrue(stack.categoryId.equals(category.id));
@@ -53,10 +59,16 @@ public class MockUtilTest {
         Stack stack2 = (Stack)stacks.get(1);
         assertTrue(stack2.categoryId.equals(category.id));
         assertEquals("Control Flow Statements", stack2.name);
+        // stack 2
+        // 0
+        Stack stackC2 = (Stack)stacks.get(2);
+        assertTrue(stackC2.categoryId.equals(category2.id));
+        assertEquals("Built-ins", stackC2.name);
 
-        // cards
+        // Card
         List<Object> cards = data.get("Card");
-        assertEquals(3, cards.size());
+        assertEquals(4, cards.size());
+        // cards for stack 1
         // 0
         Card card = (Card)cards.get(0);
         assertTrue(card.stackId.equals(stack.id));
@@ -72,6 +84,12 @@ public class MockUtilTest {
         assertTrue(card3.stackId.equals(stack2.id));
         assertEquals("if-then", card3.question);
         assertEquals("single 'if' block", card3.answer);
+        // cards for stack 2
+        // 0
+        Card cardC2 = (Card)cards.get(3);
+        assertTrue(cardC2.stackId.equals(stackC2.id));
+        assertEquals("any", cardC2.question);
+        assertEquals("return True if any are True", cardC2.answer);
     }
 
     @Test

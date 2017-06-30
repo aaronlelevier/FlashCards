@@ -6,12 +6,15 @@ import com.bwldr.flashcards.api.ApiClient;
 import com.bwldr.flashcards.api.ServiceGenerator;
 import com.bwldr.flashcards.data.CategoryRepository;
 import com.bwldr.flashcards.data.CategoryRepositoryContract;
+import com.bwldr.flashcards.data.StackRepository;
+import com.bwldr.flashcards.data.StackRepositoryContract;
 
 
 public class Inject {
 
     private static ApiClient mApiClient = null;
     private static CategoryRepositoryContract mCategoryRepository = null;
+    private static StackRepositoryContract mStackRepository = null;
 
     private Inject() {
     }
@@ -28,5 +31,12 @@ public class Inject {
             mCategoryRepository = new CategoryRepository(context);
         }
         return mCategoryRepository;
+    }
+
+    public synchronized static StackRepositoryContract getStackRepository(Context context) {
+        if (mStackRepository == null) {
+            mStackRepository = new StackRepository(context);
+        }
+        return mStackRepository;
     }
 }

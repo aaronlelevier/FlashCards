@@ -28,20 +28,25 @@ public class MockUtil extends Util {
 
             List<Object> categories = new ArrayList<>();
             Category category = Util.create_category("Java");
+            Category category2 = Util.create_category("Python");
             categories.add(category);
+            categories.add(category2);
             data.put("Category", categories);
 
             List<Object> stacks = new ArrayList<>();
             Stack stack = new Stack(category.id, "Field Modifiers");
-            stacks.add(stack);
             Stack stack2 = new Stack(category.id, "Control Flow Statements");
+            Stack stackC2 = new Stack(category2.id, "Built-ins");
+            stacks.add(stack);
             stacks.add(stack2);
+            stacks.add(stackC2);
             data.put("Stack", stacks);
 
             List<Object> cards = new ArrayList<>();
             cards.add(new Card(stack.id, "public", "can be accessed by anything"));
             cards.add(new Card(stack.id, "private", "can only be accessed internally"));
             cards.add(new Card(stack2.id, "if-then", "single 'if' block"));
+            cards.add(new Card(stackC2.id, "any", "return True if any are True"));
             data.put("Card", cards);
 
             mFixtureData = data;

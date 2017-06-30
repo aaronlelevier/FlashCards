@@ -56,8 +56,10 @@ public class MockServiceGenerator implements ServiceGeneratorContract {
         public Call<List<Stack>> stacksList(String categoryId) {
             if (mStacks.size() == 0) {
                 List<Stack> stacks = MockUtil.getStacks();
-                for (Stack category: stacks) {
-                    mStacks.add(category);
+                for (Stack stack: stacks) {
+                    if (stack.categoryId.equals(categoryId)) {
+                        mStacks.add(stack);
+                    }
                 }
             }
             return mDelegate.returningResponse(mStacks).stacksList(categoryId);

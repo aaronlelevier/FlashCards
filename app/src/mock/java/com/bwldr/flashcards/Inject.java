@@ -12,31 +12,18 @@ import com.bwldr.flashcards.data.StackRepositoryContract;
 
 public class Inject {
 
-    private static ApiClient mApiClient = null;
-    private static CategoryRepositoryContract mCategoryRepository = null;
-    private static StackRepositoryContract mStackRepository = null;
-
     private Inject() {
     }
 
     public static ApiClient getApiClient() {
-        if (mApiClient == null) {
-            mApiClient = MockServiceGenerator.createService();
-        }
-        return mApiClient;
+        return MockServiceGenerator.createService();
     }
 
     public synchronized static CategoryRepositoryContract getCategoryRepository(Context context) {
-        if (mCategoryRepository == null) {
-            mCategoryRepository = new MockCategoryRepository(context);
-        }
-        return mCategoryRepository;
+        return new MockCategoryRepository(context);
     }
 
     public synchronized static StackRepositoryContract getStackRepository(Context context) {
-        if (mStackRepository == null) {
-            mStackRepository = new MockStackRepository(context);
-        }
-        return mStackRepository;
+        return new MockStackRepository(context);
     }
 }

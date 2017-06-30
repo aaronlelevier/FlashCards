@@ -22,15 +22,15 @@ public class MockCategoryRepository implements CategoryRepositoryContract {
         mCategoriesMutable.postValue(mCategories);
     }
 
+    @Override
+    public LiveData<List<Category>> selectAll() {
+        return mCategoriesMutable;
+    }
+
     public void insert(Category category) {
         mCategories.add(category);
 
         // call to update categories from background thread
         mCategoriesMutable.postValue(mCategories);
-    }
-
-    @Override
-    public LiveData<List<Category>> selectAll() {
-        return mCategoriesMutable;
     }
 }

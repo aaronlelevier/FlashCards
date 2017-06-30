@@ -1,6 +1,5 @@
 package com.bwldr.flashcards.db;
 
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 
 /**
@@ -11,7 +10,6 @@ public class Stack extends BaseRecord {
     /**
      * The {@link Category} that this Stack belongs to
      */
-    @ColumnInfo(name = "category_id")
     public String categoryId;
     public String name;
 
@@ -19,5 +17,10 @@ public class Stack extends BaseRecord {
         super();
         this.categoryId = categoryId;
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "id: " + id + " categoryId: " + categoryId + " name: " + name;
     }
 }
