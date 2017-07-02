@@ -21,6 +21,6 @@ public class Stack extends BaseRecord {
 
     @Override
     public String toString() {
-        return "id: " + id + " categoryId: " + categoryId + " name: " + name;
+        return name;
     }
 }

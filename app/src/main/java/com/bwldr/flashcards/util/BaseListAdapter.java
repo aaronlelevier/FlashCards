@@ -1,5 +1,4 @@
-package com.bwldr.flashcards.stack;
-
+package com.bwldr.flashcards.util;
 
 import android.arch.lifecycle.LiveData;
 import android.support.v7.widget.RecyclerView;
@@ -9,16 +8,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bwldr.flashcards.R;
-import com.bwldr.flashcards.db.Stack;
 
 import java.util.List;
 
-public class StackAdapter extends RecyclerView.Adapter<StackAdapter.ViewHolder> {
+/**
+ * Generic RecyclerView.Adapter subclass for Category/Stack because
+ * the only difference between them is the Object type
+ */
 
-    private LiveData<List<Stack>> mStacks;
+public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseListAdapter.ViewHolder> {
 
-    public StackAdapter(LiveData<List<Stack>> stacks) {
-        mStacks = stacks;
+    private LiveData<List<T>> mItems;
+
+    public BaseListAdapter(LiveData<List<T>> items) {
+        mItems = items;
     }
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -29,21 +32,21 @@ public class StackAdapter extends RecyclerView.Adapter<StackAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        Stack stack = mStacks.getValue().get(position);
-        viewHolder.mTextView.setText(stack.name);
+        T item = mItems.getValue().get(position);
+        viewHolder.mTextView.setText(item.toString());
     }
 
     @Override
     public int getItemCount() {
         int count = 0;
-        if (mStacks.getValue() != null)
-            count = mStacks.getValue().size();
+        if (mItems.getValue() != null)
+            count = mItems.getValue().size();
         return count;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView;
-        public ViewHolder(View view) {
+        TextView mTextView;
+        ViewHolder(View view) {
             super(view);
             mTextView = (TextView) view.findViewById(R.id.list_item_text);
         }

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.bwldr.flashcards.R;
 import com.bwldr.flashcards.db.Stack;
+import com.bwldr.flashcards.util.BaseListAdapter;
 import com.bwldr.flashcards.util.RecyclerItemClickListener;
 
 import java.util.List;
@@ -90,7 +91,7 @@ public class StackFragment extends LifecycleFragment {
         mStackViewModel.getListData().observe(this, new Observer<List<Stack>>() {
             @Override
             public void onChanged(@Nullable List<Stack> stacks) {
-                mAdapter = new StackAdapter(mStackViewModel.getListData());
+                mAdapter = new BaseListAdapter<>(mStackViewModel.getListData());
                 mRecyclerView.setAdapter(mAdapter);
             }
         });

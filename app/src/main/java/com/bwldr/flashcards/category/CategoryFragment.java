@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.bwldr.flashcards.R;
 import com.bwldr.flashcards.db.Category;
 import com.bwldr.flashcards.stack.StackActivity;
+import com.bwldr.flashcards.util.BaseListAdapter;
 import com.bwldr.flashcards.util.RecyclerItemClickListener;
 
 import java.util.List;
@@ -82,7 +83,7 @@ public class CategoryFragment extends LifecycleFragment {
         mCategoryViewModel.getListData().observe(this, new Observer<List<Category>>() {
             @Override
             public void onChanged(@Nullable List<Category> categories) {
-                mAdapter = new CategoryAdapter(mCategoryViewModel.getListData());
+                mAdapter = new BaseListAdapter<>(mCategoryViewModel.getListData());
                 mRecyclerView.setAdapter(mAdapter);
             }
         });
