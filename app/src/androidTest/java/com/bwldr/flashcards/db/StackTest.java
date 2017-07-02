@@ -35,8 +35,8 @@ public class StackTest {
         mContext = InstrumentationRegistry.getTargetContext();
         mDb = Room.inMemoryDatabaseBuilder(mContext, AppDatabase.class).build();
 
-        mCategory = Util.create_category("Java");
-        mCategory2 = Util.create_category("Python");
+        mCategory = new Category("Java");
+        mCategory2 = new Category("Python");
         mStack = new Stack(mCategory.id, "Field Modifiers");
         mStack2 = new Stack(mCategory.id, "Control Flow Modifiers");
         mStack3 = new Stack(mCategory2.id, "Decorators");

@@ -7,7 +7,6 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.bwldr.flashcards.util.TestUtil;
-import com.bwldr.flashcards.util.Util;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,8 +30,8 @@ public class CategoryTest {
     @Test
     public void populateCategories() {
         AppDatabase db = Room.inMemoryDatabaseBuilder(mContext, AppDatabase.class).build();
-        Category category = Util.create_category("Java");
-        Category category2 = Util.create_category("Python");
+        Category category = new Category("Java");
+        Category category2 = new Category("Python");
         db.categoryDao().insert(category);
         db.categoryDao().insert(category2);
 
@@ -46,7 +45,7 @@ public class CategoryTest {
         }
         assertEquals(2, categories.size());
         Category c1 = categories.get(0);
-        assertEquals("Error: Util.create_category didn't generate the 'id'",
+        assertEquals("Error: new Category didn't generate the 'id'",
                 36, c1.id.length());
         assertEquals("Java", c1.name);
         Category c2 = categories.get(1);

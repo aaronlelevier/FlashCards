@@ -6,7 +6,6 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.bwldr.flashcards.db.Category;
-import com.bwldr.flashcards.util.Util;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +34,7 @@ public class MockCategoryRepositoryTest {
 
     @Test
     public void selectAll() {
-        Category category = Util.create_category("foo");
+        Category category = new Category("foo");
         mMockCategoryRepository.insert(category);
 
         LiveData<List<Category>> categories = mMockCategoryRepository.selectAll();

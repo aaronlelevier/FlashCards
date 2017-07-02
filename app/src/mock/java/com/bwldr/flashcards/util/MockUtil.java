@@ -18,7 +18,7 @@ public class MockUtil extends Util {
 
     public static List<Category> createCategories() {
         List<Category> data = new ArrayList<>();
-        data.add(Util.create_category("Java"));
+        data.add(new Category("Java"));
         return data;
     }
 
@@ -27,8 +27,8 @@ public class MockUtil extends Util {
             HashMap<String, List<Object>> data = new HashMap<>();
 
             List<Object> categories = new ArrayList<>();
-            Category category = Util.create_category("Java");
-            Category category2 = Util.create_category("Python");
+            Category category = new Category("Java");
+            Category category2 = new Category("Python");
             categories.add(category);
             categories.add(category2);
             data.put("Category", categories);

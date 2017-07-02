@@ -13,19 +13,11 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class StackTest {
-    @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
-    }
 
     @Test
     public void stackToString() {
-        String categoryId = Util.genId();
         String name = "foo";
-        Stack stack = new Stack(categoryId, name);
-
-        String ret = stack.toString();
-
-        assertEquals("id: " + stack.id + " categoryId: " + categoryId + " name: " + name, ret);
+        Stack stack = new Stack(Util.genId(), name);
+        assertEquals(name, stack.toString());
     }
 }
