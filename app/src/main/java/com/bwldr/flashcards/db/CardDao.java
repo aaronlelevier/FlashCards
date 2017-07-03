@@ -11,11 +11,11 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 @Dao
 public interface CardDao {
 
-    @Query("SELECT * FROM Card")
-    List<Card> selectAll();
-
-    @Query("SELECT * FROM Card WHERE stack_id = :id")
+    @Query("SELECT * FROM Card WHERE stackId = :id")
     List<Card> selectByStackId(String id);
+
+    @Query("SELECT * FROM Card WHERE id = :id")
+    List<Card> selectById(String id);
 
     @Insert(onConflict = REPLACE)
     void insert(Card card);

@@ -1,5 +1,6 @@
 package com.bwldr.flashcards.api;
 
+import com.bwldr.flashcards.db.Card;
 import com.bwldr.flashcards.db.Category;
 import com.bwldr.flashcards.db.Stack;
 
@@ -19,4 +20,7 @@ public interface ApiClient {
 
     @GET("/api/stacks/{id}/")
     Call<List<Stack>> stacksList(@Path("id") String categoryId);
+
+    @GET("/api/cards/{id}/")
+    Call<List<Card>> cardsList(@Path("id") String stackId);
 }

@@ -68,7 +68,7 @@ public class MockUtil extends Util {
 
     public static List<Card> getCards() {
         createFixtureData();
-        List<? extends Object> cards = mFixtureData.get("Category");
+        List<? extends Object> cards = mFixtureData.get("Card");
         return (List<Card>)cards;
     }
 }

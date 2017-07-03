@@ -21,6 +21,7 @@
         </activity>
         <activity android:name=".stack.StackActivity"
             android:label="@string/card_stacks"/>
+        <activity android:name=".card.CardActivity"/>
     </application>
 
 </manifest>

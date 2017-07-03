@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bwldr.flashcards.R;
+import com.bwldr.flashcards.card.CardActivity;
 import com.bwldr.flashcards.db.Stack;
 import com.bwldr.flashcards.util.BaseListAdapter;
 import com.bwldr.flashcards.util.RecyclerItemClickListener;
@@ -74,7 +75,7 @@ public class StackFragment extends LifecycleFragment {
                     public void onItemClick(View view, int position) {
                         Log.d("x", "onItemClick: " + Integer.toString(position));
                         Stack stack = mStackViewModel.getListItem(position);
-                        Intent intent = new Intent(getActivity(), StackActivity.class);
+                        Intent intent = new Intent(getActivity(), CardActivity.class);
                         intent.putExtra("stackId", stack.id);
                         startActivity(intent);
                     }
