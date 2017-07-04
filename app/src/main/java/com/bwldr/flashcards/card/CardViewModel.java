@@ -3,7 +3,6 @@ package com.bwldr.flashcards.card;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -23,7 +22,6 @@ public class CardViewModel extends AndroidViewModel {
 
     private CardRepositoryContract mCardRepo;
     private LiveData<List<Card>> mCards;
-    private final MutableLiveData<Card> mCard = new MutableLiveData<>();
 
     public CardViewModel(Application application) {
         super(application);
@@ -53,18 +51,6 @@ public class CardViewModel extends AndroidViewModel {
 
     LiveData<List<Card>> getListData() {
         return mCards;
-    }
-
-    private LiveData<Card> getCard() {
-        return mCard;
-    }
-
-    LiveData<Card> getListItem(int position) {
-        if (mCards.getValue() != null) {
-            mCard.setValue(mCards.getValue().get(position));
-            return getCard();
-        }
-        return null;
     }
 
     private class InsertCardsTask extends AsyncTask<List<Card>, Void, Void> {
