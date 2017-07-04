@@ -21,14 +21,15 @@ import java.util.List;
 
 public class CardQuestionFragment extends LifecycleFragment {
 
-    private static int mCardIndex = 0;
+    private static int mCardIndex;
 
     private CardViewModel mCardViewModel;
     private LiveData<List<Card>> mCards;
     private View mView;
     private TextView mQuestion;
 
-    public static Fragment newInstance() {
+    public static Fragment newInstance(int cardIndex) {
+        mCardIndex = cardIndex;
         return new CardQuestionFragment();
     }
 
@@ -71,7 +72,7 @@ public class CardQuestionFragment extends LifecycleFragment {
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ((ShowCardData)getActivity()).showAnswer(mCardIndex);
             }
         });
 

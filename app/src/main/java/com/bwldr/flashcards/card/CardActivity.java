@@ -13,7 +13,7 @@ import com.bwldr.flashcards.R;
  * individual flash cards within a flash card stack.
  */
 
-public class CardActivity extends LifecycleActivity {
+public class CardActivity extends LifecycleActivity implements ShowCardData {
 
     private CardViewModel mCardViewModel;
 
@@ -31,9 +31,24 @@ public class CardActivity extends LifecycleActivity {
         mCardViewModel.getCards(stackId);
 
         if (savedInstanceState == null) {
+            final int defaultStartIndex = 0;
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, CardQuestionFragment.newInstance())
+                    .add(R.id.container, CardQuestionFragment.newInstance(defaultStartIndex))
                     .commit();
         }
+    }
+
+    @Override
+    public void showAnswer(int cardIndex) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, CardAnswerFragment.newInstance(cardIndex))
+                .commit();
+    }
+
+    @Override
+    public void showNextQuestion(int cardIndex) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, CardQuestionFragment.newInstance(cardIndex))
+                .commit();
     }
 }
