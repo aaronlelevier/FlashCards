@@ -1,4 +1,4 @@
-package com.bwldr.flashcards;
+package com.bwldr.flashcards.db;
 
 import com.bwldr.flashcards.db.Category;
 
