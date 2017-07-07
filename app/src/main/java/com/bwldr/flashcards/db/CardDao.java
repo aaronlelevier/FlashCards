@@ -1,5 +1,6 @@
 package com.bwldr.flashcards.db;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
@@ -12,7 +13,7 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 public interface CardDao {
 
     @Query("SELECT * FROM Card WHERE stackId = :id")
-    List<Card> selectByStackId(String id);
+    LiveData<List<Card>> selectByStackId(String id);
 
     @Insert(onConflict = REPLACE)
     void insert(Card card);

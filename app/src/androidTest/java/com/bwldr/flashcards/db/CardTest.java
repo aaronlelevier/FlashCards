@@ -1,9 +1,12 @@
 package com.bwldr.flashcards.db;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+
+import com.bwldr.flashcards.util.TestUtil;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +15,7 @@ import org.junit.runner.RunWith;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class CardTest {
@@ -44,12 +48,28 @@ public class CardTest {
 
     @Test
     public void selectByStackId() {
-        List<Card> cards = mDb.cardDao().selectByStackId(mStack.id);
+        // cards 1
+        LiveData<List<Card>> cardsLiveData = mDb.cardDao().selectByStackId(mStack.id);
+        List<Card> cards = null;
+        try {
+            cards = TestUtil.getValue(cardsLiveData);
+        } catch (InterruptedException e) {
+            // LiveData ret failed
+        }
+        assertTrue(cards != null);
         assertEquals(2, cards.size());
         assertEquals(mCard.id, cards.get(0).id);
         assertEquals(mCard2.id, cards.get(1).id);
 
-        List<Card> cards2 = mDb.cardDao().selectByStackId(mStack2.id);
+        // cards 2
+        LiveData<List<Card>> cards2LiveData = mDb.cardDao().selectByStackId(mStack2.id);
+        List<Card> cards2 = null;
+        try {
+            cards2 = TestUtil.getValue(cards2LiveData);
+        } catch (InterruptedException e) {
+            // LiveData ret failed
+        }
+        assertTrue(cards2 != null);
         assertEquals(1, cards2.size());
         assertEquals(mCard3.id, cards2.get(0).id);
     }
