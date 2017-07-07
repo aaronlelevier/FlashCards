@@ -44,7 +44,7 @@ public class CardTest {
 
     @Test
     public void selectAll() {
-        List<Card> cards = mDb.cardDao().selectAll();
+        List<Card> cards = mDb.cardDao().selectById(mStack.id);
 
         assertEquals(3, cards.size());
         Card c = cards.get(0);

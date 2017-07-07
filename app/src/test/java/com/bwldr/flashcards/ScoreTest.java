@@ -6,6 +6,7 @@ import com.bwldr.flashcards.util.Util;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 
 public class ScoreTest {
@@ -18,6 +19,28 @@ public class ScoreTest {
         assertEquals(mScore.getTotal(), mTotal);
         assertEquals("Default initial correct should be 0",
                 mScore.correctCount(), 0);
+    }
+
+    @Test
+    public void equals() throws Exception {
+        int total = 5;
+        String cardId = Util.genId();
+        // score
+        Score score = new Score(total);
+        score.incCorrect();
+        score.addToRetries(cardId);
+        // score2
+        Score score2 = new Score(total);
+        score2.incCorrect();
+        score2.addToRetries(cardId);
+        // pre-test
+        assertEquals(score.correctCount(), score2.correctCount());
+        assertEquals(score.getTotal(), score2.getTotal());
+        assertTrue(score.getAllRetries().equals(score2.getAllRetries()));
+
+        boolean ret = score.equals(score2);
+
+        assertTrue(ret);
     }
 
     @Test

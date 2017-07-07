@@ -1,5 +1,8 @@
 package com.bwldr.flashcards.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,15 +21,26 @@ import java.util.List;
  * - more: 0
  */
 
-public class Score {
+public class Score implements Parcelable {
 
     private int mCorrect = 0;
     private final int mTotal;
-    private List<String> allRetries = new ArrayList<>();
+    private List<String> mAllRetries = new ArrayList<>();
     private HashMap<String, Integer> mCountMap = new HashMap<>();
 
     public Score(int total) {
         mTotal = total;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Score))
+            return false;
+        if (((Score) o).getTotal() != mTotal)
+            return false;
+        if (((Score) o).correctCount() != mCorrect)
+            return false;
+        return (((Score) o).getAllRetries().equals(mAllRetries));
     }
 
     // getters
@@ -37,6 +51,10 @@ public class Score {
 
     public int correctCount() {
         return mCorrect;
+    }
+
+    public List<String> getAllRetries() {
+        return mAllRetries;
     }
 
     public int onRetryCount() {
@@ -85,7 +103,7 @@ public class Score {
      * @param cardId String Card.id
      */
     public void addToRetries(String cardId) {
-        allRetries.add(cardId);
+        mAllRetries.add(cardId);
     }
 
     public void calculateRetries() {
@@ -93,8 +111,8 @@ public class Score {
         String temp;
         Integer count;
 
-        for (int i=0; i < allRetries.size(); i++) {
-            temp = allRetries.get(i);
+        for (int i = 0; i < mAllRetries.size(); i++) {
+            temp = mAllRetries.get(i);
             count = mCountMap.get(temp);
             if (count == null) {
                 mCountMap.put(temp, 1);
@@ -104,4 +122,37 @@ public class Score {
             }
         }
     }
+
+    // Parcelable
+
+    private Score(Parcel in) {
+        mTotal = in.readInt();
+        mCorrect = in.readInt();
+        mAllRetries = in.createStringArrayList();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(mTotal);
+        out.writeInt(mCorrect);
+        out.writeStringList(mAllRetries);
+    }
+
+    public static final Parcelable.Creator<Score> CREATOR
+            = new Parcelable.Creator<Score>() {
+        @Override
+        public Score createFromParcel(Parcel in) {
+            return new Score(in);
+        }
+
+        @Override
+        public Score[] newArray(int size) {
+            return new Score[0];
+        }
+    };
 }
