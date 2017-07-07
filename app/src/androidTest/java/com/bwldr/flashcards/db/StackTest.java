@@ -7,7 +7,6 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.bwldr.flashcards.util.TestUtil;
-import com.bwldr.flashcards.util.Util;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,16 +42,6 @@ public class StackTest {
         mDb.stackDao().insert(mStack);
         mDb.stackDao().insert(mStack2);
         mDb.stackDao().insert(mStack3);
-    }
-
-    @Test
-    public void selectAll() {
-        List<Stack> stacks = mDb.stackDao().selectAll();
-
-        assertEquals(3, stacks.size());
-        Stack s = stacks.get(0);
-        assertEquals(36, s.id.length());
-        assertEquals("Field Modifiers", s.name);
     }
 
     @Test

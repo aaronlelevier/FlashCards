@@ -12,9 +12,6 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 @Dao
 public interface StackDao {
 
-    @Query("SELECT * FROM Stack")
-    List<Stack> selectAll();
-
     @Query("SELECT * FROM Stack WHERE categoryId = :id")
     LiveData<List<Stack>> selectByCategoryId(String id);
 

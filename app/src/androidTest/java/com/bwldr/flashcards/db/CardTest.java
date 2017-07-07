@@ -43,18 +43,6 @@ public class CardTest {
     }
 
     @Test
-    public void selectAll() {
-        List<Card> cards = mDb.cardDao().selectById(mStack.id);
-
-        assertEquals(3, cards.size());
-        Card c = cards.get(0);
-        assertEquals(36, c.id.length());
-        assertEquals(36, c.stackId.length());
-        assertEquals("public", c.question);
-        assertEquals("can be accessed by anything", c.answer);
-    }
-
-    @Test
     public void selectByStackId() {
         List<Card> cards = mDb.cardDao().selectByStackId(mStack.id);
         assertEquals(2, cards.size());
