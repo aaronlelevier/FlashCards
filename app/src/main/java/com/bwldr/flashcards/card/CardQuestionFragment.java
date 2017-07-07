@@ -51,16 +51,18 @@ public class CardQuestionFragment extends LifecycleFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         registerCardObserver();
+        super.onViewCreated(view, savedInstanceState);
     }
 
     private void registerCardObserver() {
         mCardViewModel.getListData().observe(this, new Observer<List<Card>>() {
             @Override
             public void onChanged(@Nullable List<Card> cards) {
-                if (cards != null)
-                    mQuestion.setText(cards.get(mCardIndex).question);
+                if (mCardViewModel.getListData().getValue() != null &&
+                        mCardViewModel.getListData().getValue().size() > 0) {
+                    mQuestion.setText(mCardViewModel.getListData().getValue().get(mCardIndex).question);
+                }
             }
         });
     }
