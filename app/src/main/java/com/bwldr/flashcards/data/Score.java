@@ -45,10 +45,16 @@ public class Score implements Parcelable {
 
     // getters
 
+    /**
+     * @return int total number of cards
+     */
     public int getTotal() {
         return mTotal;
     }
 
+    /**
+     * @return int number of cards correct
+     */
     public int correctCount() {
         return mCorrect;
     }
@@ -106,6 +112,10 @@ public class Score implements Parcelable {
         mAllRetries.add(cardId);
     }
 
+    /**
+     * Call before displaying the Score Summary because tallies
+     * the retry counts per flash card
+     */
     public void calculateRetries() {
         // cardId, count
         String temp;
