@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 
 import com.bwldr.flashcards.R;
 import com.bwldr.flashcards.db.Card;
+import com.bwldr.flashcards.score.CardScoreContract;
+import com.bwldr.flashcards.score.ScoreActivity;
 
 import java.util.List;
 
@@ -25,6 +28,7 @@ public class CardQuestionFragment extends LifecycleFragment {
 
     private CardViewModel mCardViewModel;
     private LiveData<List<Card>> mCards;
+    private Card mCard;
     private View mView;
     private TextView mQuestion;
 
@@ -61,7 +65,8 @@ public class CardQuestionFragment extends LifecycleFragment {
             public void onChanged(@Nullable List<Card> cards) {
                 if (mCardViewModel.getListData().getValue() != null &&
                         mCardViewModel.getListData().getValue().size() > 0) {
-                    mQuestion.setText(mCardViewModel.getListData().getValue().get(mCardIndex).question);
+                    mCard = mCardViewModel.getListData().getValue().get(mCardIndex);
+                    mQuestion.setText(mCard.question);
                 }
             }
         });
@@ -74,7 +79,13 @@ public class CardQuestionFragment extends LifecycleFragment {
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ShowCardData)getActivity()).showAnswer(mCardIndex);
+                // TODO: adding to retries, but not logic yet for putting Card back in stack to
+                // reviewed again, and User must get correct in order to complete
+                if (mCard != null) {
+                    ((CardScoreContract) getActivity()).getScore().addToRetries(mCard.id);
+
+                    ((ShowCardData) getActivity()).showAnswer(mCardIndex);
+                }
             }
         });
 
@@ -82,9 +93,15 @@ public class CardQuestionFragment extends LifecycleFragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ++mCardIndex;
-                if (mCards.getValue() != null)
-                    mQuestion.setText(mCards.getValue().get(mCardIndex).question);
+                List<Card> cardList = mCards.getValue();
+                if (cardList != null) {
+                    ++mCardIndex;
+                    try {
+                        mQuestion.setText(cardList.get(mCardIndex).question);
+                    } catch (IndexOutOfBoundsException e) {
+                        startActivity(new Intent(getActivity(), ScoreActivity.class));
+                    }
+                }
             }
         });
     }

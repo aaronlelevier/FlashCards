@@ -5,4 +5,5 @@
     <string name="loading">Loading...</string>
     <string name="check">Check</string>
     <string name="next">Next</string>
+    <string name="score_total">Score Total</string>
 </resources>

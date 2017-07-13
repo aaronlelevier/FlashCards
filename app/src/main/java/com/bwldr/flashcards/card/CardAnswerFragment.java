@@ -65,7 +65,7 @@ public class CardAnswerFragment extends LifecycleFragment {
             @Override
             public void onClick(View v) {
                 ++mCardIndex;
-                ((ShowCardData)getActivity()).showNextQuestion(mCardIndex);
+                ((ShowCardData)getActivity()).showNextQuestionOrScoreSummary(mCardIndex);
             }
         });
     }

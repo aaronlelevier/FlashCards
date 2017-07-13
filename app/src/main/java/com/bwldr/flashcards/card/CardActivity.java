@@ -1,21 +1,30 @@
 package com.bwldr.flashcards.card;
 
 import android.arch.lifecycle.LifecycleActivity;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.bwldr.flashcards.R;
+import com.bwldr.flashcards.data.Score;
+import com.bwldr.flashcards.db.Card;
+import com.bwldr.flashcards.score.CardScoreContract;
+import com.bwldr.flashcards.score.ScoreActivity;
+
+import java.util.List;
 
 /**
  * Wrapper Activity for the Card Fragments that represent
  * individual flash cards within a flash card stack.
  */
 
-public class CardActivity extends LifecycleActivity implements ShowCardData {
+public class CardActivity extends LifecycleActivity implements ShowCardData, CardScoreContract {
 
     private CardViewModel mCardViewModel;
+    static Score sScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +45,22 @@ public class CardActivity extends LifecycleActivity implements ShowCardData {
                     .add(R.id.container, CardQuestionFragment.newInstance(defaultStartIndex))
                     .commit();
         }
+
+        registerCardObserver();
     }
+
+    private void registerCardObserver() {
+        mCardViewModel.getListData().observe(this, new Observer<List<Card>>() {
+            @Override
+            public void onChanged(@Nullable List<Card> cards) {
+                if (cards != null) {
+                    sScore = new Score(cards.size());
+                }
+            }
+        });
+    }
+
+    // ShowCardData
 
     @Override
     public void showAnswer(int cardIndex) {
@@ -46,9 +70,22 @@ public class CardActivity extends LifecycleActivity implements ShowCardData {
     }
 
     @Override
-    public void showNextQuestion(int cardIndex) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, CardQuestionFragment.newInstance(cardIndex))
-                .commit();
+    public void showNextQuestionOrScoreSummary(int cardIndex) {
+        List<Card> cardList = mCardViewModel.getListData().getValue();
+
+        if (cardList != null && cardIndex+1 > cardList.size()) {
+            startActivity(new Intent(this, ScoreActivity.class));
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, CardQuestionFragment.newInstance(cardIndex))
+                    .commit();
+        }
+    }
+
+    // CardScoreContract
+
+    @Override
+    public Score getScore() {
+        return sScore;
     }
 }

@@ -8,5 +8,5 @@ public interface ShowCardData {
 
     void showAnswer(int cardIndex);
 
-    void showNextQuestion(int cardIndex);
+    void showNextQuestionOrScoreSummary(int cardIndex);
 }
