@@ -15,9 +15,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bwldr.flashcards.R;
+import com.bwldr.flashcards.data.Score;
 import com.bwldr.flashcards.db.Card;
 import com.bwldr.flashcards.score.CardScoreContract;
 import com.bwldr.flashcards.score.ScoreActivity;
+import com.bwldr.flashcards.util.Constants;
 
 import java.util.List;
 
@@ -72,6 +74,10 @@ public class CardQuestionFragment extends LifecycleFragment {
         });
     }
 
+    private Score getScore() {
+        return ((CardScoreContract) getActivity()).getScore();
+    }
+
     private void setupButtons() {
         mQuestion = (TextView) mView.findViewById(R.id.card_question);
 
@@ -95,11 +101,16 @@ public class CardQuestionFragment extends LifecycleFragment {
             public void onClick(View v) {
                 List<Card> cardList = mCards.getValue();
                 if (cardList != null) {
+                    // mark this card as correct
+                    getScore().incCorrect();
+
                     ++mCardIndex;
                     try {
                         mQuestion.setText(cardList.get(mCardIndex).question);
                     } catch (IndexOutOfBoundsException e) {
-                        startActivity(new Intent(getActivity(), ScoreActivity.class));
+                        Intent intent = new Intent(getActivity(), ScoreActivity.class);
+                        intent.putExtra(Constants.SCORE, getScore());
+                        startActivity(intent);
                     }
                 }
             }

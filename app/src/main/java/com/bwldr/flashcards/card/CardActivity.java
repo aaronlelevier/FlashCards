@@ -13,6 +13,7 @@ import com.bwldr.flashcards.data.Score;
 import com.bwldr.flashcards.db.Card;
 import com.bwldr.flashcards.score.CardScoreContract;
 import com.bwldr.flashcards.score.ScoreActivity;
+import com.bwldr.flashcards.util.Constants;
 
 import java.util.List;
 
@@ -74,7 +75,9 @@ public class CardActivity extends LifecycleActivity implements ShowCardData, Car
         List<Card> cardList = mCardViewModel.getListData().getValue();
 
         if (cardList != null && cardIndex+1 > cardList.size()) {
-            startActivity(new Intent(this, ScoreActivity.class));
+            Intent intent = new Intent(this, ScoreActivity.class);
+            intent.putExtra(Constants.SCORE, sScore);
+            startActivity(intent);
         } else {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, CardQuestionFragment.newInstance(cardIndex))

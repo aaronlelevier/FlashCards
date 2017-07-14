@@ -18,7 +18,7 @@ public class ScoreTest {
     public void init() {
         assertEquals(mScore.getTotal(), mTotal);
         assertEquals("Default initial correct should be 0",
-                mScore.correctCount(), 0);
+                mScore.getCorrect(), 0);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class ScoreTest {
         score2.incCorrect();
         score2.addToRetries(cardId);
         // pre-test
-        assertEquals(score.correctCount(), score2.correctCount());
+        assertEquals(score.getCorrect(), score2.getCorrect());
         assertEquals(score.getTotal(), score2.getTotal());
         assertTrue(score.getAllRetries().equals(score2.getAllRetries()));
 
@@ -45,9 +45,9 @@ public class ScoreTest {
 
     @Test
     public void incCorrect() {
-        assertEquals(0, mScore.correctCount());
+        assertEquals(0, mScore.getCorrect());
         mScore.incCorrect();
-        assertEquals(1, mScore.correctCount());
+        assertEquals(1, mScore.getCorrect());
     }
 
     @Test
@@ -81,7 +81,7 @@ public class ScoreTest {
 
         mScore.calculateRetries();
 
-        assertEquals(2, mScore.onRetryCount());
+        assertEquals(2, mScore.oneRetryCount());
         assertEquals(1, mScore.twoRetryCount());
         assertEquals(1, mScore.threeRetryCount());
         assertEquals(2, mScore.moreRetryCount());

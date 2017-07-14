@@ -38,7 +38,7 @@ public class Score implements Parcelable {
             return false;
         if (((Score) o).getTotal() != mTotal)
             return false;
-        if (((Score) o).correctCount() != mCorrect)
+        if (((Score) o).getCorrect() != mCorrect)
             return false;
         return (((Score) o).getAllRetries().equals(mAllRetries));
     }
@@ -55,7 +55,7 @@ public class Score implements Parcelable {
     /**
      * @return int number of cards correct
      */
-    public int correctCount() {
+    public int getCorrect() {
         return mCorrect;
     }
 
@@ -63,7 +63,7 @@ public class Score implements Parcelable {
         return mAllRetries;
     }
 
-    public int onRetryCount() {
+    public int oneRetryCount() {
         return getCountForRetryBucket(1);
     }
 
