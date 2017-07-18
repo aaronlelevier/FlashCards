@@ -6,6 +6,7 @@ import com.bwldr.flashcards.util.Util;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 
@@ -19,6 +20,8 @@ public class ScoreTest {
         assertEquals(mScore.getTotal(), mTotal);
         assertEquals("Default initial correct should be 0",
                 mScore.getCorrect(), 0);
+        assertEquals(0, mScore.getMustRetry().size());
+        assertFalse(mScore.inRetryMode());
     }
 
     @Test
@@ -46,6 +49,11 @@ public class ScoreTest {
     @Test
     public void incCorrect() {
         assertEquals(0, mScore.getCorrect());
+        mScore.incCorrect();
+        assertEquals(1, mScore.getCorrect());
+
+        // don't increment if in "retryMode"
+        mScore.setInRetryMode();
         mScore.incCorrect();
         assertEquals(1, mScore.getCorrect());
     }
@@ -85,5 +93,26 @@ public class ScoreTest {
         assertEquals(1, mScore.twoRetryCount());
         assertEquals(1, mScore.threeRetryCount());
         assertEquals(2, mScore.moreRetryCount());
+    }
+
+    @Test
+    public void addToRetries_mustRetry() {
+        final String cardIdOne = Util.genId();
+        final String cardIdTwo = Util.genId();
+
+        assertEquals(0, mScore.getMustRetry().size());
+
+        mScore.addToRetries(cardIdOne);
+
+        assertEquals(1, mScore.getMustRetry().size());
+        assertTrue(mScore.getMustRetry().contains(cardIdOne));
+
+        for (int i = 0; i < 2; i++) {
+            mScore.addToRetries(cardIdTwo);
+        }
+
+        assertEquals(2, mScore.getMustRetry().size());
+        assertTrue(mScore.getMustRetry().contains(cardIdOne));
+        assertTrue(mScore.getMustRetry().contains(cardIdTwo));
     }
 }

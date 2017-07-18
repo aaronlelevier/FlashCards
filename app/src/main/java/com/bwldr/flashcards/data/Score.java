@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -26,7 +27,9 @@ public class Score implements Parcelable {
     private int mCorrect = 0;
     private final int mTotal;
     private List<String> mAllRetries = new ArrayList<>();
+    private HashSet<String> mMustRetry = new HashSet<>();
     private HashMap<String, Integer> mCountMap = new HashMap<>();
+    private boolean mRetryMode = false;
 
     public Score(int total) {
         mTotal = total;
@@ -57,6 +60,14 @@ public class Score implements Parcelable {
      */
     public int getCorrect() {
         return mCorrect;
+    }
+
+    public boolean inRetryMode() {
+        return mRetryMode;
+    }
+
+    public HashSet<String> getMustRetry() {
+        return mMustRetry;
     }
 
     public List<String> getAllRetries() {
@@ -98,7 +109,12 @@ public class Score implements Parcelable {
     // setters
 
     public void incCorrect() {
-        mCorrect++;
+        if (!mRetryMode)
+            mCorrect++;
+    }
+
+    public void setInRetryMode() {
+        mRetryMode = true;
     }
 
     /**
@@ -110,6 +126,7 @@ public class Score implements Parcelable {
      */
     public void addToRetries(String cardId) {
         mAllRetries.add(cardId);
+        mMustRetry.add(cardId);
     }
 
     /**
