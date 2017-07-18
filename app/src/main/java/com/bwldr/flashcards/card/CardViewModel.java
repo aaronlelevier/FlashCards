@@ -9,6 +9,7 @@ import android.util.Log;
 import com.bwldr.flashcards.Inject;
 import com.bwldr.flashcards.api.ApiClient;
 import com.bwldr.flashcards.data.CardRepositoryContract;
+import com.bwldr.flashcards.data.Score;
 import com.bwldr.flashcards.db.Card;
 
 import java.util.List;
@@ -19,6 +20,8 @@ import retrofit2.Response;
 
 
 public class CardViewModel extends AndroidViewModel {
+
+    private static Score sScore;
 
     private CardRepositoryContract mCardRepo;
     private LiveData<List<Card>> mCards;
@@ -49,6 +52,18 @@ public class CardViewModel extends AndroidViewModel {
         });
     }
 
+    public Score getScore() {
+        return sScore;
+    }
+
+    public void incCorrect() {
+        sScore.incCorrect();
+    }
+
+    public void addToRetries(String cardId) {
+        sScore.addToRetries(cardId);
+    }
+
     LiveData<List<Card>> getListData() {
         return mCards;
     }
@@ -63,6 +78,8 @@ public class CardViewModel extends AndroidViewModel {
                     Log.d("doInBackground", card.toString());
                     mCardRepo.insert(card);
                 }
+                int totalCards = data.size();
+                sScore = new Score(totalCards);
             }
             return null;
         }

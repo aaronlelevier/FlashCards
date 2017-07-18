@@ -15,9 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bwldr.flashcards.R;
-import com.bwldr.flashcards.data.Score;
 import com.bwldr.flashcards.db.Card;
-import com.bwldr.flashcards.score.CardScoreContract;
 import com.bwldr.flashcards.score.ScoreActivity;
 import com.bwldr.flashcards.util.Constants;
 
@@ -74,10 +72,6 @@ public class CardQuestionFragment extends LifecycleFragment {
         });
     }
 
-    private Score getScore() {
-        return ((CardScoreContract) getActivity()).getScore();
-    }
-
     private void setupButtons() {
         mQuestion = (TextView) mView.findViewById(R.id.card_question);
 
@@ -86,9 +80,8 @@ public class CardQuestionFragment extends LifecycleFragment {
             @Override
             public void onClick(View v) {
                 // TODO: adding to retries, but not logic yet for putting Card back in stack to
-                // reviewed again, and User must get correct in order to complete
                 if (mCard != null) {
-                    ((CardScoreContract) getActivity()).getScore().addToRetries(mCard.id);
+                    mCardViewModel.addToRetries(mCard.id);
 
                     ((ShowCardData) getActivity()).showAnswer(mCardIndex);
                 }
@@ -102,14 +95,14 @@ public class CardQuestionFragment extends LifecycleFragment {
                 List<Card> cardList = mCards.getValue();
                 if (cardList != null) {
                     // mark this card as correct
-                    getScore().incCorrect();
+                    mCardViewModel.incCorrect();
 
                     ++mCardIndex;
                     try {
                         mQuestion.setText(cardList.get(mCardIndex).question);
                     } catch (IndexOutOfBoundsException e) {
                         Intent intent = new Intent(getActivity(), ScoreActivity.class);
-                        intent.putExtra(Constants.SCORE, getScore());
+                        intent.putExtra(Constants.SCORE, mCardViewModel.getScore());
                         startActivity(intent);
                     }
                 }
