@@ -30,7 +30,7 @@ public class CardViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public void getCards(String stackId) {
+    void getCards(String stackId) {
         // Inject Repo
         mCardRepo = Inject.getCardRepository(this.getApplication());
         mCards = mCardRepo.selectById(stackId);
@@ -56,16 +56,23 @@ public class CardViewModel extends AndroidViewModel {
         return sScore;
     }
 
-    public void incCorrect() {
+    void incCorrect() {
         sScore.incCorrect();
     }
 
-    public void addToRetries(String cardId) {
+    void addToRetries(String cardId) {
         sScore.addToRetries(cardId);
     }
 
     LiveData<List<Card>> getListData() {
         return mCards;
+    }
+
+    Card getCard(int cardIndex) throws IndexOutOfBoundsException {
+        Card card = null;
+        if (mCards.getValue() != null && mCards.getValue().size() > 0)
+            card = mCards.getValue().get(cardIndex);
+        return card;
     }
 
     private class InsertCardsTask extends AsyncTask<List<Card>, Void, Void> {

@@ -1,7 +1,6 @@
 package com.bwldr.flashcards.card;
 
 import android.arch.lifecycle.LifecycleFragment;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -27,7 +26,6 @@ public class CardQuestionFragment extends LifecycleFragment {
     private static int mCardIndex;
 
     private CardViewModel mCardViewModel;
-    private LiveData<List<Card>> mCards;
     private Card mCard;
     private View mView;
     private TextView mQuestion;
@@ -42,7 +40,6 @@ public class CardQuestionFragment extends LifecycleFragment {
         super.onCreate(savedInstanceState);
 
         mCardViewModel = ViewModelProviders.of(getActivity()).get(CardViewModel.class);
-        mCards = mCardViewModel.getListData();
     }
 
     @Override
@@ -63,9 +60,8 @@ public class CardQuestionFragment extends LifecycleFragment {
         mCardViewModel.getListData().observe(this, new Observer<List<Card>>() {
             @Override
             public void onChanged(@Nullable List<Card> cards) {
-                if (mCardViewModel.getListData().getValue() != null &&
-                        mCardViewModel.getListData().getValue().size() > 0) {
-                    mCard = mCardViewModel.getListData().getValue().get(mCardIndex);
+                if (mCardViewModel.getCard(mCardIndex) != null) {
+                    mCard = mCardViewModel.getCard(mCardIndex);
                     mQuestion.setText(mCard.question);
                 }
             }
@@ -92,19 +88,17 @@ public class CardQuestionFragment extends LifecycleFragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Card> cardList = mCards.getValue();
-                if (cardList != null) {
-                    // mark this card as correct
-                    mCardViewModel.incCorrect();
+                // mark this card as correct
+                mCardViewModel.incCorrect();
 
-                    ++mCardIndex;
-                    try {
-                        mQuestion.setText(cardList.get(mCardIndex).question);
-                    } catch (IndexOutOfBoundsException e) {
-                        Intent intent = new Intent(getActivity(), ScoreActivity.class);
-                        intent.putExtra(Constants.SCORE, mCardViewModel.getScore());
-                        startActivity(intent);
-                    }
+                ++mCardIndex;
+                try {
+                    Card card = mCardViewModel.getCard(mCardIndex);
+                    mQuestion.setText(card.question);
+                } catch (IndexOutOfBoundsException e) {
+                    Intent intent = new Intent(getActivity(), ScoreActivity.class);
+                    intent.putExtra(Constants.SCORE, mCardViewModel.getScore());
+                    startActivity(intent);
                 }
             }
         });
