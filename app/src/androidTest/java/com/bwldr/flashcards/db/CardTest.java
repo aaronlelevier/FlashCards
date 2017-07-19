@@ -73,4 +73,20 @@ public class CardTest {
         assertEquals(1, cards2.size());
         assertEquals(mCard3.id, cards2.get(0).id);
     }
+
+    @Test
+    public void selectByCardIdIn() {
+        // cards 1
+        LiveData<List<Card>> cardsLiveData = mDb.cardDao().selectByCardIdIn(mCard.id, mCard2.id);
+        List<Card> cards = null;
+        try {
+            cards = TestUtil.getValue(cardsLiveData);
+        } catch (InterruptedException e) {
+            // LiveData ret failed
+        }
+        assertTrue(cards != null);
+        assertEquals(2, cards.size());
+        assertEquals(mCard2.id, cards.get(0).id);
+        assertEquals(mCard.id, cards.get(1).id);
+    }
 }
