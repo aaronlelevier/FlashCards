@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bwldr.flashcards.R;
-import com.bwldr.flashcards.data.Score;
 
 import java.util.Locale;
 

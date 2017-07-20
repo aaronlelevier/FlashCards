@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.bwldr.flashcards.R;
-import com.bwldr.flashcards.data.Score;
 import com.bwldr.flashcards.util.Constants;
 
 

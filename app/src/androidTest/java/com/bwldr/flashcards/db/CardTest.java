@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
@@ -77,7 +78,13 @@ public class CardTest {
     @Test
     public void selectByCardIdIn() {
         // cards 1
-        LiveData<List<Card>> cardsLiveData = mDb.cardDao().selectByCardIdIn(mCard.id, mCard2.id);
+        List<String> list = new ArrayList<>();
+        list.add(mCard.id);
+        list.add(mCard2.id);
+        String[] array = list.toArray(new String[list.size()]);
+
+        LiveData<List<Card>> cardsLiveData = mDb.cardDao().selectByCardIdIn(array);
+
         List<Card> cards = null;
         try {
             cards = TestUtil.getValue(cardsLiveData);
@@ -86,7 +93,5 @@ public class CardTest {
         }
         assertTrue(cards != null);
         assertEquals(2, cards.size());
-        assertEquals(mCard2.id, cards.get(0).id);
-        assertEquals(mCard.id, cards.get(1).id);
     }
 }

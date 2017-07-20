@@ -1,4 +1,4 @@
-package com.bwldr.flashcards.data;
+package com.bwldr.flashcards.score;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -27,7 +27,7 @@ public class Score implements Parcelable {
     private int mCorrect = 0;
     private final int mTotal;
     private List<String> mAllRetries = new ArrayList<>();
-    private HashSet<String> mMustRetry = new HashSet<>();
+    private HashSet<String> mMustRetries = new HashSet<>();
     private HashMap<String, Integer> mCountMap = new HashMap<>();
     private boolean mRetryMode = false;
 
@@ -66,8 +66,8 @@ public class Score implements Parcelable {
         return mRetryMode;
     }
 
-    public HashSet<String> getMustRetry() {
-        return mMustRetry;
+    public HashSet<String> getMustRetries() {
+        return mMustRetries;
     }
 
     public List<String> getAllRetries() {
@@ -126,7 +126,7 @@ public class Score implements Parcelable {
      */
     public void addToRetries(String cardId) {
         mAllRetries.add(cardId);
-        mMustRetry.add(cardId);
+        mMustRetries.add(cardId);
     }
 
     /**
@@ -182,4 +182,8 @@ public class Score implements Parcelable {
             return new Score[0];
         }
     };
+
+    public boolean mustRetry() {
+        return mMustRetries.size() > 0;
+    }
 }

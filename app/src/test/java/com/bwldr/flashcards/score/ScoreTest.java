@@ -1,6 +1,5 @@
-package com.bwldr.flashcards;
+package com.bwldr.flashcards.score;
 
-import com.bwldr.flashcards.data.Score;
 import com.bwldr.flashcards.util.Util;
 
 import org.junit.Test;
@@ -20,7 +19,7 @@ public class ScoreTest {
         assertEquals(mScore.getTotal(), mTotal);
         assertEquals("Default initial correct should be 0",
                 mScore.getCorrect(), 0);
-        assertEquals(0, mScore.getMustRetry().size());
+        assertEquals(0, mScore.getMustRetries().size());
         assertFalse(mScore.inRetryMode());
     }
 
@@ -100,19 +99,31 @@ public class ScoreTest {
         final String cardIdOne = Util.genId();
         final String cardIdTwo = Util.genId();
 
-        assertEquals(0, mScore.getMustRetry().size());
+        assertEquals(0, mScore.getMustRetries().size());
 
         mScore.addToRetries(cardIdOne);
 
-        assertEquals(1, mScore.getMustRetry().size());
-        assertTrue(mScore.getMustRetry().contains(cardIdOne));
+        assertEquals(1, mScore.getMustRetries().size());
+        assertTrue(mScore.getMustRetries().contains(cardIdOne));
 
         for (int i = 0; i < 2; i++) {
             mScore.addToRetries(cardIdTwo);
         }
 
-        assertEquals(2, mScore.getMustRetry().size());
-        assertTrue(mScore.getMustRetry().contains(cardIdOne));
-        assertTrue(mScore.getMustRetry().contains(cardIdTwo));
+        assertEquals(2, mScore.getMustRetries().size());
+        assertTrue(mScore.getMustRetries().contains(cardIdOne));
+        assertTrue(mScore.getMustRetries().contains(cardIdTwo));
+    }
+
+    @Test
+    public void mustRetry() {
+        final String cardIdOne = Util.genId();
+        assertEquals(0, mScore.getMustRetries().size());
+        mScore.addToRetries(cardIdOne);
+
+        assertTrue(mScore.getMustRetries().size() > 0);
+
+        assertTrue("Error: if their are entries in the mMustRetries Set, this should return true",
+                mScore.mustRetry());
     }
 }

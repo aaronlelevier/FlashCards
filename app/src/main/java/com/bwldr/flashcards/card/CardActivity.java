@@ -57,6 +57,7 @@ public class CardActivity extends LifecycleActivity implements ShowCardData {
         List<Card> cardList = mCardViewModel.getListData().getValue();
 
         if (cardList != null && cardIndex+1 > cardList.size()) {
+
             Intent intent = new Intent(this, ScoreActivity.class);
             intent.putExtra(Constants.SCORE, mCardViewModel.getScore());
             startActivity(intent);

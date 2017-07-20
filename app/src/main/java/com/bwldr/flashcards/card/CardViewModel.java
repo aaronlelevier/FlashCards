@@ -9,7 +9,7 @@ import android.util.Log;
 import com.bwldr.flashcards.Inject;
 import com.bwldr.flashcards.api.ApiClient;
 import com.bwldr.flashcards.data.CardRepositoryContract;
-import com.bwldr.flashcards.data.Score;
+import com.bwldr.flashcards.score.Score;
 import com.bwldr.flashcards.db.Card;
 
 import java.util.List;

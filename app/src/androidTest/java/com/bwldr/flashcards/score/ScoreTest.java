@@ -1,6 +1,8 @@
-package com.bwldr.flashcards.data;
+package com.bwldr.flashcards.score;
 
 import android.os.Parcel;
+
+import com.bwldr.flashcards.score.Score;
 
 import org.junit.Test;
 
