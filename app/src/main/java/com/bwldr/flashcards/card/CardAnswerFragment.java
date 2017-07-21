@@ -55,7 +55,12 @@ public class CardAnswerFragment extends LifecycleFragment {
             @Override
             public void onChanged(@Nullable List<Card> cards) {
                 if (cards != null)
-                    mAnswer.setText(cards.get(mCardIndex).answer);
+                    try {
+                        mAnswer.setText(cards.get(mCardIndex).answer);
+                    } catch (IndexOutOfBoundsException e) {
+                        final int firstCardIndex = 0;
+                        mAnswer.setText(cards.get(firstCardIndex).answer);
+                    }
             }
         });
     }

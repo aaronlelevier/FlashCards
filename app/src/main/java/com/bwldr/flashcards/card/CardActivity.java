@@ -56,11 +56,20 @@ public class CardActivity extends LifecycleActivity implements ShowCardData {
     public void showNextQuestionOrScoreSummary(int cardIndex) {
         List<Card> cardList = mCardViewModel.getListData().getValue();
 
-        if (cardList != null && cardIndex+1 > cardList.size()) {
-
-            Intent intent = new Intent(this, ScoreActivity.class);
-            intent.putExtra(Constants.SCORE, mCardViewModel.getScore());
-            startActivity(intent);
+        if (cardList != null && cardIndex + 1 > cardList.size()) {
+            if (mCardViewModel.getScore().mustRetry()) {
+                // no more Cards, but must retry
+                mCardViewModel.setUpMustRetryCards();
+                final int firstCardIndex = 0;
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, CardQuestionFragment.newInstance(firstCardIndex))
+                        .commit();
+            } else {
+                // all Cards answered either first time, or eventually
+                Intent intent = new Intent(this, ScoreActivity.class);
+                intent.putExtra(Constants.SCORE, mCardViewModel.getScore());
+                startActivity(intent);
+            }
         } else {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, CardQuestionFragment.newInstance(cardIndex))

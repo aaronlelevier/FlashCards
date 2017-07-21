@@ -30,6 +30,29 @@ public class CardViewModel extends AndroidViewModel {
         super(application);
     }
 
+    public Score getScore() {
+        return sScore;
+    }
+
+    void incCorrect() {
+        sScore.incCorrect();
+    }
+
+    void addToRetries(String cardId) {
+        sScore.addToRetries(cardId);
+    }
+
+    LiveData<List<Card>> getListData() {
+        return mCards;
+    }
+
+    Card getCard(int cardIndex) throws IndexOutOfBoundsException {
+        Card card = null;
+        if (mCards.getValue() != null && mCards.getValue().size() > 0)
+            card = mCards.getValue().get(cardIndex);
+        return card;
+    }
+
     void getCards(String stackId) {
         // Inject Repo
         mCardRepo = Inject.getCardRepository(this.getApplication());
@@ -52,27 +75,14 @@ public class CardViewModel extends AndroidViewModel {
         });
     }
 
-    public Score getScore() {
-        return sScore;
-    }
+    void setUpMustRetryCards() {
+        mCards = mCardRepo.selectByCardIdIn(sScore.getMustRetries());
 
-    void incCorrect() {
-        sScore.incCorrect();
-    }
+        // no longer count correct cards
+        sScore.setInRetryMode();
 
-    void addToRetries(String cardId) {
-        sScore.addToRetries(cardId);
-    }
-
-    LiveData<List<Card>> getListData() {
-        return mCards;
-    }
-
-    Card getCard(int cardIndex) throws IndexOutOfBoundsException {
-        Card card = null;
-        if (mCards.getValue() != null && mCards.getValue().size() > 0)
-            card = mCards.getValue().get(cardIndex);
-        return card;
+        // user is restarting, so clear out previous must retries
+        sScore.getMustRetries().clear();
     }
 
     private class InsertCardsTask extends AsyncTask<List<Card>, Void, Void> {
