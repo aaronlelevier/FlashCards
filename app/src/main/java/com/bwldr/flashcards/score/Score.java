@@ -36,6 +36,14 @@ public class Score implements Parcelable {
     private HashSet<String> mMustRetries = new HashSet<>();
     private HashMap<String, Integer> mCountMap = new HashMap<>();
 
+    /**
+     * Constructor used for Parcelable form CardActivity to ScoreActivity
+     * @param total
+     */
+    public Score(int total) {
+        mTotal = total;
+    }
+
     public Score(@NonNull List<Card> cards) {
         mCards = cards;
         mTotal = cards.size();
@@ -127,7 +135,12 @@ public class Score implements Parcelable {
      * @return int total number of cards
      */
     public int getTotal() {
-        mTotal = mCards.size();
+        // mCards will be null when calling the `Score(int)` constructor for passing
+        // a Parcelable `Score` from the CardActivity to the ScoreActivity at
+        // which point we only care about the `Score.mTotal`, not the `Score.mCards`
+        if (mCards != null) {
+            mTotal = mCards.size();
+        }
         return mTotal;
     }
 
