@@ -7,6 +7,7 @@ import android.content.Context;
 import com.bwldr.flashcards.db.AppDatabase;
 import com.bwldr.flashcards.db.Card;
 
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -26,5 +27,10 @@ public class CardRepository implements CardRepositoryContract {
     @Override
     public void insert(Card card) {
         mDb.cardDao().insert(card);
+    }
+
+    @Override
+    public LiveData<List<Card>> selectByCardIdIn(HashSet<String> cardIds) {
+        return mDb.cardDao().selectByCardIdIn(cardIds.toArray(new String[cardIds.size()]));
     }
 }

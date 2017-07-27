@@ -90,13 +90,12 @@ public class CardViewModel extends AndroidViewModel {
         @Override
         protected Void doInBackground(List<Card>... params) {
             if (params[0] != null) {
-                List<Card> data = params[0];
-                for (Card card : data) {
-                    Log.d("doInBackground", card.toString());
-                    mCardRepo.insert(card);
+                List<Card> cards = params[0];
+                for (Card c : cards) {
+                    Log.d("doInBackground", c.toString());
+                    mCardRepo.insert(c);
                 }
-                int totalCards = data.size();
-                sScore = new Score(totalCards);
+                sScore = new Score(cards);
             }
             return null;
         }

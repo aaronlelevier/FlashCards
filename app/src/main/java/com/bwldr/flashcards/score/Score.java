@@ -2,6 +2,9 @@ package com.bwldr.flashcards.score;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
+import com.bwldr.flashcards.db.Card;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,15 +27,18 @@ import java.util.List;
 
 public class Score implements Parcelable {
 
+    private List<Card> mCards;
+    private int mCardIndex = 0;
     private int mCorrect = 0;
-    private final int mTotal;
+    private int mTotal;
+    private boolean mIsFirstRound = true;
     private List<String> mAllRetries = new ArrayList<>();
     private HashSet<String> mMustRetries = new HashSet<>();
     private HashMap<String, Integer> mCountMap = new HashMap<>();
-    private boolean mRetryMode = false;
 
-    public Score(int total) {
-        mTotal = total;
+    public Score(@NonNull List<Card> cards) {
+        mCards = cards;
+        mTotal = cards.size();
     }
 
     @Override
@@ -46,12 +52,82 @@ public class Score implements Parcelable {
         return (((Score) o).getAllRetries().equals(mAllRetries));
     }
 
+    /**
+     * This method increments the current score if necessary, and
+     * tells whether there are more cards left in the stack.
+     * @param correct
+     * @return true if there are more Cards in the stack, else
+     * false, and we should transition to the Score Summary View
+     */
+    public boolean answeredCardCorrect(boolean correct) {
+        if (correct) {
+            incCorrect();
+        } else {
+            markCardIncorrect();
+        }
+        return transitionToNextCardOrFinish();
+    }
+
+    public void incCorrect() {
+        if (mIsFirstRound)
+            mCorrect++;
+    }
+
+    public void markCardIncorrect() {
+        Card card = mCards.get(mCardIndex);
+        mAllRetries.add(card.id);
+        mMustRetries.add(card.id);
+    }
+
+    public boolean transitionToNextCardOrFinish() {
+        if (mCardIndex < maxCardIndex()) {
+            mCardIndex++;
+            return true;
+        } else if (mustRetry()) {
+            resetCardsForMustRetries();
+            return true;
+        }
+        return false;
+    }
+
+    public void resetCardsForMustRetries() {
+        mCardIndex = 0;
+
+        List<Card> cardsToRetry = new ArrayList<>();
+        for (Card c: mCards) {
+            if (mMustRetries.contains(c.id)) {
+                cardsToRetry.add(c);
+            }
+        }
+        mCards = cardsToRetry;
+
+        mAllRetries.clear();
+        mMustRetries.clear();
+    }
+
     // getters
+
+    public List<Card> getCards() {
+        return mCards;
+    }
+
+    public Card getCard() {
+        return mCards.get(mCardIndex);
+    }
+
+    public int getCardIndex() {
+        return mCardIndex;
+    }
+
+    public int maxCardIndex() {
+        return mTotal-1;
+    }
 
     /**
      * @return int total number of cards
      */
     public int getTotal() {
+        mTotal = mCards.size();
         return mTotal;
     }
 
@@ -62,8 +138,8 @@ public class Score implements Parcelable {
         return mCorrect;
     }
 
-    public boolean inRetryMode() {
-        return mRetryMode;
+    public boolean isFirstRound() {
+        return mIsFirstRound;
     }
 
     public HashSet<String> getMustRetries() {
@@ -108,13 +184,8 @@ public class Score implements Parcelable {
 
     // setters
 
-    public void incCorrect() {
-        if (!mRetryMode)
-            mCorrect++;
-    }
-
     public void setInRetryMode() {
-        mRetryMode = true;
+        mIsFirstRound = false;
     }
 
     /**
