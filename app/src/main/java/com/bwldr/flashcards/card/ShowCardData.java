@@ -6,7 +6,7 @@ package com.bwldr.flashcards.card;
 
 public interface ShowCardData {
 
-    void showAnswer(int cardIndex);
+    void showAnswer();
 
-    void showNextQuestionOrScoreSummary(int cardIndex);
+    void showNextQuestionOrScoreSummary();
 }

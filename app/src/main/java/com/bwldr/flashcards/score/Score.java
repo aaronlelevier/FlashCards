@@ -67,13 +67,12 @@ public class Score implements Parcelable {
      * @return true if there are more Cards in the stack, else
      * false, and we should transition to the Score Summary View
      */
-    public boolean answeredCardCorrect(boolean correct) {
+    public void answeredCardCorrect(boolean correct) {
         if (correct) {
             incCorrect();
         } else {
             markCardIncorrect();
         }
-        return transitionToNextCardOrFinish();
     }
 
     public void incCorrect() {
@@ -128,7 +127,7 @@ public class Score implements Parcelable {
     }
 
     public int maxCardIndex() {
-        return mTotal-1;
+        return getTotal()-1;
     }
 
     /**

@@ -3,14 +3,15 @@ package com.bwldr.flashcards.card;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.bwldr.flashcards.Inject;
 import com.bwldr.flashcards.api.ApiClient;
 import com.bwldr.flashcards.data.CardRepositoryContract;
-import com.bwldr.flashcards.score.Score;
 import com.bwldr.flashcards.db.Card;
+import com.bwldr.flashcards.score.Score;
 
 import java.util.List;
 
@@ -22,9 +23,9 @@ import retrofit2.Response;
 public class CardViewModel extends AndroidViewModel {
 
     private static Score sScore;
+    private static MutableLiveData<Score> sScoreMutable = new MutableLiveData<>();
 
     private CardRepositoryContract mCardRepo;
-    private LiveData<List<Card>> mCards;
 
     public CardViewModel(Application application) {
         super(application);
@@ -34,29 +35,17 @@ public class CardViewModel extends AndroidViewModel {
         return sScore;
     }
 
-    void incCorrect() {
-        sScore.incCorrect();
+    public LiveData<Score> getLiveScore() {
+        return sScoreMutable;
     }
 
-    void addToRetries(String cardId) {
-        sScore.addToRetries(cardId);
-    }
-
-    LiveData<List<Card>> getListData() {
-        return mCards;
-    }
-
-    Card getCard(int cardIndex) throws IndexOutOfBoundsException {
-        Card card = null;
-        if (mCards.getValue() != null && mCards.getValue().size() > 0)
-            card = mCards.getValue().get(cardIndex);
-        return card;
-    }
-
+    /**
+     * Populates Cards in the DB and initializes the Score object
+     * @param stackId of Cards to request from API
+     */
     void getCards(String stackId) {
         // Inject Repo
         mCardRepo = Inject.getCardRepository(this.getApplication());
-        mCards = mCardRepo.selectById(stackId);
 
         // Inject ApiClient
         ApiClient client = Inject.getApiClient();
@@ -75,16 +64,6 @@ public class CardViewModel extends AndroidViewModel {
         });
     }
 
-    void setUpMustRetryCards() {
-        mCards = mCardRepo.selectByCardIdIn(sScore.getMustRetries());
-
-        // no longer count correct cards
-        sScore.setInRetryMode();
-
-        // user is restarting, so clear out previous must retries
-        sScore.getMustRetries().clear();
-    }
-
     private class InsertCardsTask extends AsyncTask<List<Card>, Void, Void> {
 
         @Override
@@ -96,6 +75,7 @@ public class CardViewModel extends AndroidViewModel {
                     mCardRepo.insert(c);
                 }
                 sScore = new Score(cards);
+                sScoreMutable.postValue(sScore);
             }
             return null;
         }

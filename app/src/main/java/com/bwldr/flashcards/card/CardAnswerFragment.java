@@ -1,7 +1,6 @@
 package com.bwldr.flashcards.card;
 
 import android.arch.lifecycle.LifecycleFragment;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,21 +10,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bwldr.flashcards.R;
-import com.bwldr.flashcards.db.Card;
-
-import java.util.List;
 
 
 public class CardAnswerFragment extends LifecycleFragment {
-
-    private static int mCardIndex;
 
     private CardViewModel mCardViewModel;
     private View mView;
     private TextView mAnswer;
 
-    public static CardAnswerFragment newInstance(int cardIndex) {
-        mCardIndex = cardIndex;
+    public static CardAnswerFragment newInstance() {
         return new CardAnswerFragment();
     }
 
@@ -41,36 +34,15 @@ public class CardAnswerFragment extends LifecycleFragment {
         mView = inflater.inflate(R.layout.fragment_card_answer, container, false);
         setOnClickListener();
         mAnswer = (TextView) mView.findViewById(R.id.card_answer);
+        mAnswer.setText(mCardViewModel.getScore().getCard().answer);
         return mView;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        registerCardObserver();
-    }
-
-    private void registerCardObserver() {
-        mCardViewModel.getListData().observe(this, new Observer<List<Card>>() {
-            @Override
-            public void onChanged(@Nullable List<Card> cards) {
-                if (cards != null)
-                    try {
-                        mAnswer.setText(cards.get(mCardIndex).answer);
-                    } catch (IndexOutOfBoundsException e) {
-                        final int firstCardIndex = 0;
-                        mAnswer.setText(cards.get(firstCardIndex).answer);
-                    }
-            }
-        });
     }
 
     private void setOnClickListener() {
         mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ++mCardIndex;
-                ((ShowCardData)getActivity()).showNextQuestionOrScoreSummary(mCardIndex);
+                ((ShowCardData)getActivity()).showNextQuestionOrScoreSummary();
             }
         });
     }
