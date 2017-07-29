@@ -36,7 +36,9 @@ public class ScoreTest {
                 mCards, mScore.getCards());
         assertEquals("Correct should default to 0 on init",
                 0, mScore.getCorrect());
-        assertEquals("Total should be the same as 'mCards.size()'",
+        assertEquals("Total should be the same as 'mCards.size()' and get resets each round",
+                2, mScore.getCurrentTotal());
+        assertEquals("Total should be the same as 'mCards.size()' that the Score is initialized with",
                 2, mScore.getTotal());
         assertEquals("No Cards have retried yet",
                 0, mScore.getMustRetries().size());
@@ -59,7 +61,7 @@ public class ScoreTest {
         score2.addToRetries(cardId);
         // pre-test
         assertEquals(score.getCorrect(), score2.getCorrect());
-        assertEquals(score.getTotal(), score2.getTotal());
+        assertEquals(score.getCurrentTotal(), score2.getCurrentTotal());
         assertTrue(score.getAllRetries().equals(score2.getAllRetries()));
 
         boolean ret = score.equals(score2);
@@ -149,7 +151,7 @@ public class ScoreTest {
 
     @Test
     public void maxCardIndex() {
-        assertEquals(2, mScore.getTotal());
+        assertEquals(2, mScore.getCurrentTotal());
         assertEquals(1, mScore.maxCardIndex());
     }
 
@@ -174,38 +176,63 @@ public class ScoreTest {
     @Test
     public void transitionToNextCardOrFinish_mustRetryPath() {
         // 1st card - incorrect
-        int initCardIndex = mScore.getCardIndex();
-        assertEquals(0, initCardIndex);
+        assertTrue(mScore.isFirstRound());
+        assertEquals(0, mScore.getCardIndex());
         assertEquals(0, mScore.getCorrect());
+        assertEquals(2, mScore.getCurrentTotal());
+        assertEquals(2, mScore.getTotal());
+        assertEquals(2, mScore.getCards().size());
+        assertEquals(0, mScore.getAllRetries().size());
+        assertEquals(0, mScore.getMustRetries().size());
 
         mScore.answeredCardCorrect(false);
-        mScore.transitionToNextCardOrFinish();
+        boolean moreCards = mScore.transitionToNextCardOrFinish();
 
+        assertTrue(moreCards);
+        assertTrue(mScore.isFirstRound());
         assertEquals(1, mScore.getCardIndex());
         assertEquals(0, mScore.getCorrect());
-        // all retries
+        assertEquals(2, mScore.getCurrentTotal());
+        assertEquals(2, mScore.getCards().size());
         assertEquals(1, mScore.getAllRetries().size());
-        assertEquals(mCard1.id, mScore.getAllRetries().get(0));
-        // must retries
         assertEquals(1, mScore.getMustRetries().size());
+        // mCard1 must be retried
+        assertEquals(mCard1.id, mScore.getAllRetries().get(0));
         assertTrue(mScore.getMustRetries().contains(mCard1.id));
-
-        assertEquals("No more cards after this one",
-                mScore.getCardIndex(), mScore.maxCardIndex());
 
         // 2nd card - correct
         mScore.answeredCardCorrect(true);
-        mScore.transitionToNextCardOrFinish();
+        boolean moreCards2 = mScore.transitionToNextCardOrFinish();
 
+        assertTrue(moreCards2);
+        assertFalse(mScore.isFirstRound());
         assertEquals(0, mScore.getCardIndex());
         assertEquals(1, mScore.getCorrect());
-        assertEquals(0, mScore.getAllRetries().size());
+        assertEquals(1, mScore.getCurrentTotal());
+        assertEquals(1, mScore.getCards().size());
+        assertEquals(1, mScore.getAllRetries().size());
         assertEquals(0, mScore.getMustRetries().size());
+        assertEquals(mCard1.id, mScore.getAllRetries().get(0));
+        assertEquals(mCard1, mScore.getCards().get(0));
+
+        // retry round, redo mCard1
+        mScore.answeredCardCorrect(true);
+        boolean moreCards3 = mScore.transitionToNextCardOrFinish();
+
+        assertFalse(moreCards3);
+        assertEquals(1, mScore.getCorrect());
+        assertEquals(1, mScore.getAllRetries().size());
+        // Score counts
+        assertEquals(1, mScore.oneRetryCount());
+        assertEquals(0, mScore.twoRetryCount());
+        assertEquals(0, mScore.threeRetryCount());
+        assertEquals(0, mScore.moreRetryCount());
     }
 
     @Test
     public void resetCardsForMustRetries() {
-        assertEquals(2, mScore.getTotal());
+        assertTrue(mScore.isFirstRound());
+        assertEquals(2, mScore.getCurrentTotal());
         assertEquals(0, mScore.getCorrect());
 
         mScore.answeredCardCorrect(false);
@@ -220,9 +247,10 @@ public class ScoreTest {
 
         mScore.resetCardsForMustRetries();
 
-        assertEquals(1, mScore.getTotal());
+        assertFalse(mScore.isFirstRound());
+        assertEquals(1, mScore.getCurrentTotal());
         assertEquals(mCard1, mScore.getCards().get(0));
-        assertEquals(0, mScore.getAllRetries().size());
+        assertEquals(1, mScore.getAllRetries().size());
         assertEquals(0, mScore.getMustRetries().size());
     }
 
@@ -255,7 +283,7 @@ public class ScoreTest {
             mScore.addToRetries(cardIdFive);
         }
 
-        mScore.calculateRetries();
+        mScore.calculateRetryCounts();
 
         assertEquals(2, mScore.oneRetryCount());
         assertEquals(1, mScore.twoRetryCount());

@@ -30,7 +30,8 @@ public class Score implements Parcelable {
     private List<Card> mCards;
     private int mCardIndex = 0;
     private int mCorrect = 0;
-    private int mTotal;
+    private int mCurrentTotal;
+    private final int mTotal;
     private boolean mIsFirstRound = true;
     private List<String> mAllRetries = new ArrayList<>();
     private HashSet<String> mMustRetries = new HashSet<>();
@@ -41,17 +42,21 @@ public class Score implements Parcelable {
      * @param total
      */
     public Score(int total) {
+        mCurrentTotal = total;
         mTotal = total;
     }
 
     public Score(@NonNull List<Card> cards) {
         mCards = cards;
+        mCurrentTotal = cards.size();
         mTotal = cards.size();
     }
 
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Score))
+            return false;
+        if (((Score) o).getCurrentTotal() != mCurrentTotal)
             return false;
         if (((Score) o).getTotal() != mTotal)
             return false;
@@ -94,10 +99,12 @@ public class Score implements Parcelable {
             resetCardsForMustRetries();
             return true;
         }
+        calculateRetryCounts();
         return false;
     }
 
     public void resetCardsForMustRetries() {
+        setInRetryMode();
         mCardIndex = 0;
 
         List<Card> cardsToRetry = new ArrayList<>();
@@ -108,7 +115,6 @@ public class Score implements Parcelable {
         }
         mCards = cardsToRetry;
 
-        mAllRetries.clear();
         mMustRetries.clear();
     }
 
@@ -127,19 +133,23 @@ public class Score implements Parcelable {
     }
 
     public int maxCardIndex() {
-        return getTotal()-1;
+        return getCurrentTotal()-1;
     }
 
     /**
      * @return int total number of cards
      */
-    public int getTotal() {
+    public int getCurrentTotal() {
         // mCards will be null when calling the `Score(int)` constructor for passing
         // a Parcelable `Score` from the CardActivity to the ScoreActivity at
-        // which point we only care about the `Score.mTotal`, not the `Score.mCards`
+        // which point we only care about the `Score.mCurrentTotal`, not the `Score.mCards`
         if (mCards != null) {
-            mTotal = mCards.size();
+            mCurrentTotal = mCards.size();
         }
+        return mCurrentTotal;
+    }
+
+    public int getTotal() {
         return mTotal;
     }
 
@@ -216,7 +226,7 @@ public class Score implements Parcelable {
      * Call before displaying the Score Summary because tallies
      * the retry counts per flash card
      */
-    public void calculateRetries() {
+    public void calculateRetryCounts() {
         // cardId, count
         String temp;
         Integer count;
@@ -236,6 +246,7 @@ public class Score implements Parcelable {
     // Parcelable
 
     private Score(Parcel in) {
+        mCurrentTotal = in.readInt();
         mTotal = in.readInt();
         mCorrect = in.readInt();
         mAllRetries = in.createStringArrayList();
@@ -248,6 +259,7 @@ public class Score implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(mCurrentTotal);
         out.writeInt(mTotal);
         out.writeInt(mCorrect);
         out.writeStringList(mAllRetries);

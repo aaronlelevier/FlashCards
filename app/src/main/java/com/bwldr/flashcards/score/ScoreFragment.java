@@ -41,7 +41,7 @@ public class ScoreFragment extends Fragment {
     }
 
     private static void setScore(Score score) {
-        score.calculateRetries();
+        score.calculateRetryCounts();
         sScore = score;
     }
 }
