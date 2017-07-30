@@ -8,7 +8,9 @@ import android.util.Log;
 
 import com.bwldr.flashcards.R;
 import com.bwldr.flashcards.score.ScoreActivity;
+import com.bwldr.flashcards.score.ScoreTransition;
 import com.bwldr.flashcards.util.Constants;
+import com.bwldr.flashcards.util.Util;
 
 /**
  * Wrapper Activity for the Card Fragments that represent
@@ -50,15 +52,24 @@ public class CardActivity extends LifecycleActivity implements ShowCardData {
 
     @Override
     public void showNextQuestionOrScoreSummary() {
-        boolean moreCardsExist = mCardViewModel.getScore().transitionToNextCardOrFinish();
-        if (moreCardsExist) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, CardQuestionFragment.newInstance())
-                    .commit();
-        } else {
-            Intent intent = new Intent(this, ScoreActivity.class);
-            intent.putExtra(Constants.SCORE, mCardViewModel.getScore());
-            startActivity(intent);
+        ScoreTransition transition = mCardViewModel.getScore().transitionToNextCardOrFinish();
+        switch (transition) {
+            case NEXT:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, CardQuestionFragment.newInstance())
+                        .commit();
+                break;
+            case RETRY:
+                Util.showToast(this, "retry missed cards");
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, CardQuestionFragment.newInstance())
+                        .commit();
+                break;
+            case FINISH:
+                Intent intent = new Intent(this, ScoreActivity.class);
+                intent.putExtra(Constants.SCORE, mCardViewModel.getScore());
+                startActivity(intent);
+                break;
         }
     }
 }

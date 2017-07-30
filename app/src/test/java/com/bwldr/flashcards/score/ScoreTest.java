@@ -101,24 +101,24 @@ public class ScoreTest {
     public void answeredCardCorrect_returnFalseIfThereAreRemainingCards() {
         // answered both cards, so no more cards left
         mScore.answeredCardCorrect(true);
-        boolean ret = mScore.transitionToNextCardOrFinish();
-        assertTrue(ret);
+        ScoreTransition ret = mScore.transitionToNextCardOrFinish();
+        assertEquals(ScoreTransition.NEXT, ret);
 
         mScore.answeredCardCorrect(true);
-        boolean ret2 = mScore.transitionToNextCardOrFinish();
-        assertFalse(ret2);
+        ScoreTransition ret2 = mScore.transitionToNextCardOrFinish();
+        assertEquals(ScoreTransition.FINISH, ret2);
     }
 
     @Test
     public void answeredCardCorrect_returnTrueIfThereAreRemainingCards() {
         // answered one card incorrect, so has to retry
         mScore.answeredCardCorrect(false);
-        boolean ret = mScore.transitionToNextCardOrFinish();
-        assertTrue(ret);
+        ScoreTransition ret = mScore.transitionToNextCardOrFinish();
+        assertEquals(ScoreTransition.NEXT, ret);
 
         mScore.answeredCardCorrect(true);
-        boolean ret2 = mScore.transitionToNextCardOrFinish();
-        assertTrue(ret2);
+        ScoreTransition ret2 = mScore.transitionToNextCardOrFinish();
+        assertEquals(ScoreTransition.RETRY, ret2);
     }
 
     @Test
@@ -160,17 +160,17 @@ public class ScoreTest {
         // 1st card
         assertTrue(mScore.maxCardIndex() > mScore.getCardIndex());
 
-        boolean ret = mScore.transitionToNextCardOrFinish();
+        ScoreTransition ret = mScore.transitionToNextCardOrFinish();
 
-        assertTrue(ret);
+        assertEquals(ScoreTransition.NEXT, ret);
         assertEquals(1, mScore.getCardIndex());
 
         // 2nd card
         assertEquals(mScore.getCardIndex(), mScore.maxCardIndex());
 
-        boolean ret2 = mScore.transitionToNextCardOrFinish();
+        ScoreTransition ret2 = mScore.transitionToNextCardOrFinish();
 
-        assertFalse(ret2);
+        assertEquals(ScoreTransition.FINISH, ret2);
     }
 
     @Test
@@ -186,9 +186,9 @@ public class ScoreTest {
         assertEquals(0, mScore.getMustRetries().size());
 
         mScore.answeredCardCorrect(false);
-        boolean moreCards = mScore.transitionToNextCardOrFinish();
+        ScoreTransition transition = mScore.transitionToNextCardOrFinish();
 
-        assertTrue(moreCards);
+        assertEquals(ScoreTransition.NEXT, transition);
         assertTrue(mScore.isFirstRound());
         assertEquals(1, mScore.getCardIndex());
         assertEquals(0, mScore.getCorrect());
@@ -202,9 +202,9 @@ public class ScoreTest {
 
         // 2nd card - correct
         mScore.answeredCardCorrect(true);
-        boolean moreCards2 = mScore.transitionToNextCardOrFinish();
+        ScoreTransition transition2 = mScore.transitionToNextCardOrFinish();
 
-        assertTrue(moreCards2);
+        assertEquals(ScoreTransition.RETRY, transition2);
         assertFalse(mScore.isFirstRound());
         assertEquals(0, mScore.getCardIndex());
         assertEquals(1, mScore.getCorrect());
@@ -217,9 +217,9 @@ public class ScoreTest {
 
         // retry round, redo mCard1
         mScore.answeredCardCorrect(true);
-        boolean moreCards3 = mScore.transitionToNextCardOrFinish();
+        ScoreTransition transition3 = mScore.transitionToNextCardOrFinish();
 
-        assertFalse(moreCards3);
+        assertEquals(ScoreTransition.FINISH, transition3);
         assertEquals(1, mScore.getCorrect());
         assertEquals(1, mScore.getAllRetries().size());
         // Score counts

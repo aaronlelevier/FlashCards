@@ -91,16 +91,16 @@ public class Score implements Parcelable {
         mMustRetries.add(card.id);
     }
 
-    public boolean transitionToNextCardOrFinish() {
+    public ScoreTransition transitionToNextCardOrFinish() {
         if (mCardIndex < maxCardIndex()) {
             mCardIndex++;
-            return true;
+            return ScoreTransition.NEXT;
         } else if (mustRetry()) {
             resetCardsForMustRetries();
-            return true;
+            return ScoreTransition.RETRY;
         }
         calculateRetryCounts();
-        return false;
+        return ScoreTransition.FINISH;
     }
 
     public void resetCardsForMustRetries() {

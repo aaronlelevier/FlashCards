@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MockUtil extends Util {
+public class MockUtil {
 
     private static HashMap<String, List<Object>> mFixtureData;
 
