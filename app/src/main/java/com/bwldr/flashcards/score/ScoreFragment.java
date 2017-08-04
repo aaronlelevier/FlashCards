@@ -27,15 +27,15 @@ public class ScoreFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_score, container, false);
 
         ((TextView) view.findViewById(R.id.tv_total))
-                .setText(String.format(Locale.US, "Correct: %d / %d", sScore.getCorrect(), sScore.getTotal()));
+                .setText(String.format(Locale.US, "%d/%d", sScore.getCorrect(), sScore.getTotal()));
         ((TextView) view.findViewById(R.id.tv_retries_1x))
-                .setText(String.format(Locale.US, "Retries 1x: %d", sScore.oneRetryCount()));
+                .setText(String.format(Locale.US, "%d", sScore.oneRetryCount()));
         ((TextView) view.findViewById(R.id.tv_retries_2x))
-                .setText(String.format(Locale.US, "Retries 2x: %d", sScore.twoRetryCount()));
+                .setText(String.format(Locale.US, "%d", sScore.twoRetryCount()));
         ((TextView) view.findViewById(R.id.tv_retries_3x))
-                .setText(String.format(Locale.US, "Retries 3x: %d", sScore.threeRetryCount()));
+                .setText(String.format(Locale.US, "%d", sScore.threeRetryCount()));
         ((TextView) view.findViewById(R.id.tv_retries_more))
-                .setText(String.format(Locale.US, "Retries more: %d", sScore.moreRetryCount()));
+                .setText(String.format(Locale.US, "%d", sScore.moreRetryCount()));
 
         return view;
     }

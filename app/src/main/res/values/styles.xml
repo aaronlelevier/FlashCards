@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ScoreTheme" parent="AppTheme">
+        <item name="android:textViewStyle">@style/ScoreTextView</item>
+    </style>
+
+    <style name="ScoreTextView" parent="android:Widget.TextView">
+        <item name="android:textSize">30sp</item>
+    </style>
+
 </resources>

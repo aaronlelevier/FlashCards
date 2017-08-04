@@ -1,62 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
+    <TableLayout
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="@string/score_total"
-        android:textSize="18sp"
+        android:gravity="center"
+        android:stretchColumns="*"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:layout_width="175dp"
-        android:layout_height="80dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title">
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tv_total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:id="@+id/tv_retries_1x"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:id="@+id/tv_retries_2x"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:id="@+id/tv_retries_3x"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:id="@+id/tv_retries_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
-
-    </LinearLayout>
+            android:id="@+id/title"
+            android:text="@string/score_total"
+            android:textSize="@dimen/score_table_header_text_size" />
+        <TableRow>
+            <TextView android:text="Correct" />
+            <TextView android:id="@+id/tv_total"
+                android:layout_gravity="end"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="Retries 1x:" />
+            <TextView android:id="@+id/tv_retries_1x"
+                android:layout_gravity="end" />
+        </TableRow>
+        <TableRow>
+            <TextView android:text="Retries 2x:" />
+            <TextView android:id="@+id/tv_retries_2x"
+                android:layout_gravity="end"/>
+        </TableRow>
+        <TableRow>
+            <TextView android:text="Retries 3x:" />
+            <TextView android:id="@+id/tv_retries_3x"
+                android:layout_gravity="end"/>
+        </TableRow>
+        <TableRow>
+            <TextView android:text="Retries more:" />
+            <TextView android:id="@+id/tv_retries_more"
+                android:layout_gravity="end" />
+        </TableRow>
+    </TableLayout>
 
 </android.support.constraint.ConstraintLayout>

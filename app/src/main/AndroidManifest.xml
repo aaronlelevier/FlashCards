@@ -26,7 +26,8 @@
         <activity
             android:name=".card.CardActivity"
             android:noHistory="true" />
-        <activity android:name=".score.ScoreActivity">
+        <activity android:name=".score.ScoreActivity"
+            android:theme="@style/ScoreTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".stack.StackActivity" />
