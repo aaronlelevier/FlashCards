@@ -11,14 +11,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".category.CategoryActivity"
-            android:label="@string/categories">
+        <activity android:name=".splash.SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter android:label="@string/categories">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="www.bwldr.com"
+                    android:scheme="http" />
+
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".category.CategoryActivity"
+            android:label="@string/categories">
         </activity>
         <activity
             android:name=".stack.StackActivity"
@@ -26,7 +39,8 @@
         <activity
             android:name=".card.CardActivity"
             android:noHistory="true" />
-        <activity android:name=".score.ScoreActivity"
+        <activity
+            android:name=".score.ScoreActivity"
             android:theme="@style/ScoreTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
