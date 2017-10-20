@@ -41,10 +41,11 @@
             android:noHistory="true" />
         <activity
             android:name=".score.ScoreActivity"
-            android:theme="@style/ScoreTheme">
+            android:theme="@style/ScoreTheme"
+            android:parentActivityName=".category.CategoryActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".stack.StackActivity" />
+                android:value=".category.CategoryActivity" />
         </activity>
     </application>
 
