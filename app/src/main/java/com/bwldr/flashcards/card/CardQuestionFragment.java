@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.bwldr.flashcards.R;
 import com.bwldr.flashcards.score.Score;
 
+import java.util.Locale;
+
 
 public class CardQuestionFragment extends LifecycleFragment {
 
@@ -23,6 +25,7 @@ public class CardQuestionFragment extends LifecycleFragment {
     private CardViewModel mCardViewModel;
     private View mView;
     private TextView mQuestion;
+    private TextView mCardIndexCount;
 
     public static Fragment newInstance() {
         return new CardQuestionFragment();
@@ -56,6 +59,8 @@ public class CardQuestionFragment extends LifecycleFragment {
                 if (score != null) {
                     sScore = score;
                     mQuestion.setText(sScore.getCard().question);
+                    mCardIndexCount.setText(
+                            String.format(Locale.US, "%d / %d", sScore.getCardIndex()+1, sScore.getCurrentTotal()));
                 }
             }
         });
@@ -63,6 +68,8 @@ public class CardQuestionFragment extends LifecycleFragment {
 
     private void setupButtons() {
         mQuestion = (TextView) mView.findViewById(R.id.card_question);
+
+        mCardIndexCount = (TextView) mView.findViewById(R.id.card_index_count);
 
         Button btnCheck = (Button) mView.findViewById(R.id.button_check);
         btnCheck.setOnClickListener(new View.OnClickListener() {
